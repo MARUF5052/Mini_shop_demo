@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StyleHub - Fashion E-commerce</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXX');</script>
+    <!-- End Google Tag Manager -->
+    
     <style>
         :root {
             --primary: #3a86ff;
@@ -217,7 +225,7 @@
             color: white;
         }
         
-        /* Cart Modal */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -497,9 +505,19 @@
                 margin-bottom: 10px;
             }
         }
+
+        /* Added to cart animation */
+        .added-to-cart {
+            background-color: var(--success) !important;
+            color: white !important;
+        }
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -542,7 +560,7 @@
                     <div class="product-info">
                         <h3 class="product-title">Men's Casual Shirt</h3>
                         <p class="product-price">$29.99</p>
-                        <button class="add-to-cart" data-id="1" data-name="Men's Casual Shirt" data-price="29.99" data-image="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('1', 'Men\\'s Casual Shirt', 29.99, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80')">Add to Cart</button>
                     </div>
                 </div>
                 
@@ -552,7 +570,7 @@
                     <div class="product-info">
                         <h3 class="product-title">Women's Summer Dress</h3>
                         <p class="product-price">$39.99</p>
-                        <button class="add-to-cart" data-id="2" data-name="Women's Summer Dress" data-price="39.99" data-image="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('2', 'Women\\'s Summer Dress', 39.99, 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
                     </div>
                 </div>
                 
@@ -562,7 +580,7 @@
                     <div class="product-info">
                         <h3 class="product-title">Men's Denim Jeans</h3>
                         <p class="product-price">$49.99</p>
-                        <button class="add-to-cart" data-id="3" data-name="Men's Denim Jeans" data-price="49.99" data-image="https://images.unsplash.com/photo-1505022610485-0245ef5e5e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('3', 'Men\\'s Denim Jeans', 49.99, 'https://images.unsplash.com/photo-1505022610485-0245ef5e5e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
                     </div>
                 </div>
                 
@@ -572,7 +590,7 @@
                     <div class="product-info">
                         <h3 class="product-title">Women's Blazer</h3>
                         <p class="product-price">$59.99</p>
-                        <button class="add-to-cart" data-id="4" data-name="Women's Blazer" data-price="59.99" data-image="https://images.unsplash.com/photo-1589810635657-232948472d98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('4', 'Women\\'s Blazer', 59.99, 'https://images.unsplash.com/photo-1589810635657-232948472d98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
                     </div>
                 </div>
                 
@@ -582,7 +600,7 @@
                     <div class="product-info">
                         <h3 class="product-title">Unisex Hoodie</h3>
                         <p class="product-price">$34.99</p>
-                        <button class="add-to-cart" data-id="5" data-name="Unisex Hoodie" data-price="34.99" data-image="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('5', 'Unisex Hoodie', 34.99, 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80')">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -594,13 +612,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Your Shopping Cart</h2>
-                <button class="close-modal" id="closeCart">&times;</button>
+                <button class="close-modal" onclick="closeCart()">&times;</button>
             </div>
             <div class="cart-items" id="cartItems">
                 <p id="emptyCartMessage" style="text-align: center; padding: 20px; color: var(--gray);">Your cart is empty</p>
             </div>
             <div class="cart-total" id="cartTotal" style="display: none;">Total: $0.00</div>
-            <button class="btn" id="checkoutBtn" style="display: none; width: 100%;">Proceed to Checkout</button>
+            <button class="btn" id="checkoutBtn" style="display: none; width: 100%;" onclick="beginCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -609,20 +627,4 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Checkout</h2>
-                <button class="close-modal" id="closeCheckout">&times;</button>
-            </div>
-            <form id="checkoutForm">
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="address">Shipping Address</label>
-                    <textarea id="address" class="form-control" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Numb
+                <button class="close-m
