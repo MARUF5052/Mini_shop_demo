@@ -398,4 +398,245 @@
                 id: 3, 
                 name: "Kids Sports Running Shoes", 
                 price: 899, 
-                category: "kids"
+                category: "kids", 
+                image: "https://via.placeholder.com/500x500/28a745/ffffff?text=Sports+Shoes",
+                headline: "Comfortable & Durable",
+                description: "Keep your kids active and comfortable with our sports running shoes. Designed with extra cushioning and flexible soles, these shoes provide excellent support for growing feet. The breathable mesh material keeps feet cool and dry during activities.",
+                features: ["Extra Cushioning", "Breathable Mesh", "Non-Slip Soles", "Easy to Clean"]
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentProduct = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts();
+            updateCart();
+            updateStepIndicator(1);
+            
+            // Same as billing functionality
+            document.getElementById('sameAsBilling').addEventListener('change', function() {
+                const shippingInfo = document.getElementById('shippingInfo');
+                if (this.checked) {
+                    shippingInfo.style.display = 'none';
+                    copyBillingToShipping();
+                } else {
+                    shippingInfo.style.display = 'block';
+                }
+            });
+        });
+
+        // Display Products
+        function displayProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = products.map(product => `
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.headline}</p>
+                            <p class="fw-bold text-primary">$${product.price}</p>
+                            <button class="btn btn-primary w-100" onclick="viewProductDetail(${product.id})">
+                                View Details & Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // View Product Details
+        function viewProductDetail(productId) {
+            currentProduct = products.find(p => p.id === productId);
+            const container = document.getElementById('productDetailContainer');
+            
+            container.innerHTML = `
+                <div class="col-md-6">
+                    <img src="${currentProduct.image}" class="img-fluid rounded" alt="${currentProduct.name}">
+                </div>
+                <div class="col-md-6">
+                    <h2>${currentProduct.name}</h2>
+                    <h4 class="text-primary">${currentProduct.headline}</h4>
+                    <p class="lead">$${currentProduct.price}</p>
+                    
+                    <div class="mb-4">
+                        <h5>Product Description</h5>
+                        <p>${currentProduct.description}</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Key Features</h5>
+                        <ul>
+                            ${currentProduct.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <button class="btn btn-success btn-lg w-100" onclick="addToCartAndContinue(${productId})">
+                        <i class="fas fa-cart-plus"></i> Add to Cart & Continue
+                    </button>
+                </div>
+            `;
+            
+            showSection('product-detail');
+            updateStepIndicator(2);
+            trackEvent('ecommerce', 'product_view', currentProduct.name, currentProduct.price);
+        }
+
+        // Add to Cart and Continue
+        function addToCartAndContinue(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCart();
+            
+            // Show added product info
+            document.getElementById('addedProductInfo').innerHTML = `
+                <h5>${product.name}</h5>
+                <p>$${product.price} x 1 = $${product.price}</p>
+                <p class="text-success"><i class="fas fa-check"></i> Successfully added to cart!</p>
+            `;
+            
+            showSection('add-to-cart');
+            updateStepIndicator(3);
+            trackEvent('ecommerce', 'add_to_cart', product.name, product.price);
+        }
+
+        // Begin Checkout
+        function beginCheckout() {
+            showSection('checkout');
+            updateStepIndicator(4);
+            updateOrderSummary();
+            trackEvent('ecommerce', 'begin_checkout', '', getCartTotal());
+        }
+
+        // Process Purchase
+        function processPurchase() {
+            // Validate form
+            if (!validateCheckoutForm()) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Track purchase
+            const orderTotal = getCartTotal();
+            trackEvent('ecommerce', 'purchase', '', orderTotal);
+            
+            // Generate order number
+            const orderNumber = 'ORD-' + Date.now();
+            document.getElementById('orderNumber').textContent = orderNumber;
+            
+            showSection('purchase-complete');
+            updateStepIndicator(5);
+            
+            // Clear cart after purchase
+            setTimeout(() => {
+                cart = [];
+                updateCart();
+            }, 3000);
+        }
+
+        // Validate Checkout Form
+        function validateCheckoutForm() {
+            const requiredFields = [
+                'billingFirstName', 'billingLastName', 'billingEmail', 
+                'billingMobile', 'billingCountry', 'billingState', 'billingCity'
+            ];
+            
+            if (!document.getElementById('sameAsBilling').checked) {
+                requiredFields.push('shippingFirstName', 'shippingLastName', 'shippingEmail', 
+                                  'shippingMobile', 'shippingCountry', 'shippingState', 'shippingCity');
+            }
+            
+            for (let field of requiredFields) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.focus();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Copy Billing to Shipping
+        function copyBillingToShipping() {
+            const fields = ['FirstName', 'LastName', 'Email', 'Mobile', 'Country', 'State', 'City', 'Religion'];
+            fields.forEach(field => {
+                const billingValue = document.getElementById('billing' + field).value;
+                document.getElementById('shipping' + field).value = billingValue;
+            });
+        }
+
+        // Update Order Summary
+        function updateOrderSummary() {
+            const container = document.getElementById('orderSummary');
+            const total = document.getElementById('orderTotal');
+            
+            container.innerHTML = cart.map(item => `
+                <div class="d-flex justify-content-between mb-2">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>$${item.price * item.quantity}</span>
+                </div>
+            `).join('');
+            
+            total.textContent = '$' + getCartTotal();
+        }
+
+        // Cart Management
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+
+        function getCartTotal() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        // Section Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.checkout-section, #home').forEach(section => {
+                section.classList.remove('section-active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('section-active');
+            
+            // Update step indicator based on section
+            const stepMap = {
+                'home': 1,
+                'products': 1,
+                'product-detail': 2,
+                'add-to-cart': 3,
+                'checkout': 4,
+                'purchase-complete': 5
+            };
+            
+            if (stepMap[sectionName]) {
+                updateStepIndicator(stepMap[sectionName]);
+            }
+        }
+
+        // Step Indicator
+        function updateStepIndicator(activeStep) {
+            for (let i = 1; i <= 5; i++) {
+                const step = document.getElementById('step' + i);
+                step.className = 'step';
+                if (i === activeStep) {
+                    step.classList.add('active');
+                } else if (i < activeStep) {
+                    step.classList.add('completed');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
