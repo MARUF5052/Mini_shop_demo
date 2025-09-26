@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue E-Commerce Demo</title>
+<style>
+body{margin:0;padding:0;font-family:Arial,sans-serif;background:#e6f0ff;color:#111;}
+header{background:#1e3a8a;color:white;padding:16px;text-align:center;}
+header h1{margin:0;font-size:24px;}
+.products{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;padding:16px;}
+.card{background:white;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);padding:12px;width:200px;text-align:center;}
+.card img{width:100%;border-radius:8px;}
+.card h3{margin:8px 0 4px 0;}
+.card p{margin:4px 0;color:#555;}
+.card button{background:#1e3a8a;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;margin-top:6px;}
+#cart{position:fixed;top:16px;right:16px;background:#1e3a8a;color:white;padding:12px 16px;border-radius:10px;cursor:pointer;}
+#cartOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;}
+#cartPanel{background:white;padding:16px;border-radius:12px;width:90%;max-width:400px;max-height:90%;overflow:auto;}
+#cartPanel h2{margin-top:0;}
+.cart-item{display:flex;justify-content:space-between;margin:8px 0;}
+.cart-item span{margin:0 4px;}
+.btn-checkout{background:#1e3a8a;color:white;padding:8px 12px;border:none;border-radius:6px;cursor:pointer;margin-top:12px;width:100%;}
+input,textarea{width:100%;padding:8px;margin:4px 0;border-radius:6px;border:1px solid #ccc;}
+label{font-weight:600;margin-top:6px;display:block;}
+#eventLog{position:fixed;bottom:0;left:0;right:0;background:#f5f5f5;border-top:1px solid #ccc;padding:10px;max-height:150px;overflow-y:auto;font-size:12px;display:none;}
+#toggleLog{position:fixed;bottom:10px;right:10px;background:#1e3a8a;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Blue Mini E-Commerce Shop</h1>
+</header>
+
+<div id="cart">🛒 Cart (<span id="cartCount">0</span>)</div>
+
+<div class="products" id="products"></div>
+
+<!-- Cart Overlay -->
+<div id="cartOverlay" class="center" style="display:flex;align-items:center;justify-content:center;">
+  <div id="cartPanel">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div><strong>Total:</strong> ৳<span id="cartTotal">0</span></div>
+
+    <h3>Customer Info (COD)</h3>
+    <label for="cname">Name</label><input type="text" id="cname" placeholder="Your Name">
+    <label for="cemail">Email</label><input type="email" id="cemail" placeholder="you@example.com">
+    <label for="cphone">Phone</label><input type="tel" id="cphone" placeholder="+8801XXXXXXXXX">
+    <label for="caddr">Address</label><textarea id="caddr" rows="2" placeholder="Your address"></textarea>
+
+    <button class="btn-checkout" onclick="checkout()">Cash on Delivery</button>
+    <button class="btn-checkout" style="background:#ccc;color:#111;margin-top:6px;" onclick="closeCart()">Close</button>
+  </div>
+</div>
+
+<!-- Event Log for Demo Purposes -->
+<div id="eventLog"></div>
+<button id="toggleLog" onclick="toggleEventLog()">Toggle Event Log</button>
+
+<script>
+// Product data
+const products = [
+  {id:1, title:"Salwar Kameez", price:1490, img:"https://picsum.photos/200/200?random=1"},
+  {id:2, title:"Cashmere Funnel", price:2590, img:"https://picsum.photos/200/200?random=2"}
+];
+let cart = {};
+
+// Initialize tracking (in a real implementation, you would include the actual GA4 and Google Ads scripts)
+function initTracking() {
+  logEvent("Tracking initialized", "GA4 and Google Ads tracking would be loaded here");
+  
+  // Simulate page_view event
+  logEvent("page_view", {
+    page_title: "Blue Mini E-Commerce Shop",
+    page_location: window.location.href
+  });
+}
+
+// Log events for demo purposes
+function logEvent(eventName, parameters) {
+  const log = document.getElementById('eventLog');
+  const timestamp = new Date().toLocaleTimeString();
+  
+  let logEntry = `<div><strong>${timestamp}:</strong> ${eventName}`;
+  if (parameters) {
+    logEntry += ` - ${JSON.stringify(parameters)}`;
+  }
+  logEntry += '</div>';
+  
+  log.innerHTML = logEntry + log.innerHTML;
+  
+  // In a real implementation, you would send these events to GA4 and Google Ads
+  console.log(`[GA4/Google Ads Event] ${eventName}`, parameters);
+}
+
+// Product view events (triggered when products are displayed)
+function trackProductViews() {
+  products.forEach(product => {
+    logEvent("view_item", {
+      currency: "BDT",
+      value: product.price,
+      items: [{
+        item_id: product.id.toString(),
+        item_name: product.title,
+        price: product.price,
+        currency: "BDT"
+      }]
+    });
+  });
+}
+
+// Add to cart function with tracking
+function addToCart(id) {
+  const product = products.find(p => p.id == id);
+  cart[id] = cart[id] ? cart[id] + 1 : 1;
+  
+  // Track add_to_cart event
+  logEvent("add_to_cart", {
+    currency: "BDT",
+    value: product.price,
+    items: [{
+      item_id: id.toString(),
+      item_name: product.title,
+      price: product.price,
+      quantity: cart[id]
+    }]
+  });
+  
+  updateCart();
+}
+
+// Update cart function
+function updateCart() {
+  const cartCount = document.getElementById('cartCount');
+  const cartItems = document.getElementById('cartItems');
+  let total = 0;
+  cartItems.innerHTML = '';
+  let itemsCount = 0;
+  
+  for(const id in cart) {
+    const prod = products.find(p => p.id == id);
+    const qty = cart[id];
+    itemsCount += qty;
+    total += prod.price * qty;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `<span>${prod.title} x ${qty}</span><span>৳${prod.price*qty}</span> <button onclick="removeItem(${id})">Remove</button>`;
+    cartItems.appendChild(div);
+  }
+  
+  cartCount.innerText = itemsCount;
+  document.getElementById('cartTotal').innerText = total;
+}
+
+// Remove item from cart with tracking
+function removeItem(id) {
+  const product = products.find(p => p.id == id);
+  const quantity = cart[id];
+  
+  // Track remove_from_cart event
+  logEvent("remove_from_cart", {
+    currency: "BDT",
+    value: product.price * quantity,
+    items: [{
+      item_id: id.toString(),
+      item_name: product.title,
+      price: product.price,
+      quantity: quantity
+    }]
+  });
+  
+  delete cart[id];
+  updateCart();
+}
+
+// Begin checkout process with tracking
+function beginCheckout() {
+  const total = document.getElementById('cartTotal').innerText;
+  if(total == 0) {
+    alert("Cart is empty!");
+    return;
+  }
+  
+  // Track begin_checkout event
+  const items = [];
+  let totalValue = 0;
+  
+  for(const id in cart) {
+    const product = products.find(p => p.id == id);
+    const quantity = cart[id];
+    items.push({
+      item_id: id.toString(),
+      item_name: product.title,
+      price: product.price,
+      quantity: quantity
+    });
+    totalValue += product.price * quantity;
+  }
+  
+  logEvent("begin_checkout", {
+    currency: "BDT",
+    value: totalValue,
+    items: items
+  });
+  
+  document.getElementById('cartOverlay').style.display = 'flex';
+}
+
+// Purchase completion with tracking
+function checkout() {
+  const total = document.getElementById('cartTotal').innerText;
+  const name = document.getElementById('cname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const phone = document.getElementById('cphone').value.trim();
+  const addr = document.getElementById('caddr').value.trim();
+  
+  if(total == 0) {
+    alert("Cart is empty!");
+    return;
+  }
+  
+  if(!name || !email || !phone || !addr) {
+    alert("Please fill all customer info!");
+    return;
+  }
+  
+  // Track purchase event
+  const items = [];
+  let totalValue = 0;
+  const transactionId = 'T' + Date.now(); // Generate a unique transaction ID
+  
+  for(const id in cart) {
+    const product = products.find(p => p.id == id);
+    const quantity = cart[id];
+    items.push({
+      item_id: id.toString(),
+      item_name: product.title,
+      price: product.price,
+      quantity: quantity
+    });
+    totalValue += product.price * quantity;
+  }
+  
+  logEvent("purchase", {
+    transaction_id: transactionId,
+    currency: "BDT",
+    value: totalValue,
+    items: items,
+    customer_name: name,
+    customer_email: email
+  });
+  
+  // Demo alert
+  alert(`Thank you ${name}!\nOrder total ৳${total}\nCash on Delivery selected.\nTransaction ID: ${transactionId}\n\nDetails:\nEmail: ${email}\nPhone: ${phone}\nAddress: ${addr}`);
+  
+  // Clear cart after purchase
+  cart = {};
+  updateCart();
+  closeCart();
+  
+  // Clear form fields
+  document.getElementById('cname').value = '';
+  document.getElementById('cemail').value = '';
+  document.getElementById('cphone').value = '';
+  document.getElementById('caddr').value = '';
+}
+
+// Close cart function
+function closeCart() {
+  document.getElementById('cartOverlay').style.display = 'none';
+}
+
+// Toggle event log visibility
+function toggleEventLog() {
+  const log = document.getElementById('eventLog');
+  log.style.display = log.style.display === 'none' ? 'block' : 'none';
+}
+
+// Render products
+function renderProducts() {
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.title}">
+      <h3>${p.title}</h3>
+      <p>৳${p.price}</p>
+      <button onclick="addToCart(${p.id})">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  renderProducts();
+  initTracking();
+  trackProductViews();
+  
+  // Update cart click handler to track begin_checkout
+  document.getElementById('cart').addEventListener('click', beginCheckout);
+});
+</script>
+</body>
+</html>
