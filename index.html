@@ -86,6 +86,7 @@
             position: relative;
             font-size: 20px;
             color: var(--dark);
+            cursor: pointer;
         }
         
         .cart-count {
@@ -581,48 +582,42 @@
             </div>
             <div class="cart-items" id="cartItems">
                 <!-- Cart items will be added here dynamically -->
+                <p id="emptyCartMessage" style="text-align: center; padding: 20px; color: var(--gray);">Your cart is empty</p>
             </div>
-            <div class="cart-total" id="cartTotal">Total: $0.00</div>
-            <button class="btn" id="checkoutBtn">Proceed to Checkout</button>
+            <div class="cart-total" id="cartTotal" style="display: none;">Total: $0.00</div>
+            <button class="btn" id="checkoutBtn" style="display: none;">Proceed to Checkout</button>
         </div>
     </div>
 
-    <!-- Checkout Form -->
-    <div class="cart-content" id="checkoutForm" style="display: none;">
-        <div class="cart-header">
-            <h2>Checkout</h2>
-            <span class="close-cart" id="closeCheckout">&times;</span>
-        </div>
-        <form id="checkoutFormElement">
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" class="form-control" required>
+    <!-- Checkout Modal -->
+    <div class="cart-modal" id="checkoutModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Checkout</h2>
+                <span class="close-cart" id="closeCheckout">&times;</span>
             </div>
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Shipping Address</label>
-                <textarea id="address" class="form-control" rows="3" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" class="form-control" required>
-            </div>
-            
-            <h3>Payment Method</h3>
-            <div class="payment-methods">
-                <div class="payment-method" data-method="card">
-                    <i class="fas fa-credit-card"></i>
-                    <p>Credit/Debit Card</p>
-                </div>
-                <div class="payment-method" data-method="cod">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <p>Cash on Delivery</p>
-                </div>
-            </div>
-            
-            <div id="cardPaymentForm">
+            <form id="checkoutForm">
                 <div class="form-group">
-                    <label for="card
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea id="address" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" required>
+                </div>
+                
+                <h3>Payment Method</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" data-method="card">
+                        <i class="fas fa-credit-card"></i>
+                        <p>Credit/Debit Card</p>
+                    </div>
+                  
