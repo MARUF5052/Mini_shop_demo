@@ -3,628 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StyleHub - Fashion E-commerce</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Arrong Style - Practice Store</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXX');</script>
-    <!-- End Google Tag Manager -->
-    
-    <style>
-        :root {
-            --primary: #3a86ff;
-            --secondary: #ff006e;
-            --dark: #333;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --success: #38b000;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .logo span {
-            color: var(--secondary);
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: var(--primary);
-        }
-        
-        .cart-icon {
-            position: relative;
-            font-size: 20px;
-            color: var(--dark);
-            cursor: pointer;
-        }
-        
-        .cart-count {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background-color: #2a75f0;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e0005e;
-        }
-        
-        /* Products Section */
-        .section-title {
-            text-align: center;
-            margin: 60px 0 40px;
-            font-size: 32px;
-            color: var(--dark);
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .product-image {
-            height: 250px;
-            width: 100%;
-            object-fit: cover;
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        
-        .product-price {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .add-to-cart {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--light);
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-        
-        .add-to-cart:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 10px;
-            padding: 30px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .close-modal {
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray);
-            background: none;
-            border: none;
-        }
-        
-        .cart-items {
-            margin-bottom: 20px;
-        }
-        
-        .cart-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 15px;
-        }
-        
-        .cart-item-details {
-            flex-grow: 1;
-        }
-        
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .cart-item-price {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-        
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .quantity {
-            margin: 0 10px;
-            font-weight: 600;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        .remove-item {
-            color: var(--secondary);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        
-        .cart-total {
-            text-align: right;
-            font-size: 20px;
-            font-weight: 700;
-            margin: 20px 0;
-        }
-        
-        /* Checkout Form */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .payment-methods {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .payment-method {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .payment-method.active {
-            border-color: var(--primary);
-            background-color: rgba(58, 134, 255, 0.1);
-        }
-        
-        .payment-method i {
-            font-size: 30px;
-            margin-bottom: 10px;
-            color: var(--gray);
-        }
-        
-        .payment-method.active i {
-            color: var(--primary);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--primary);
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column ul li a {
-            color: #bbb;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-column ul li a:hover {
-            color: white;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #444;
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #444;
-            color: #bbb;
-            font-size: 14px;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                padding: 15px 0;
-            }
-            
-            nav ul {
-                margin-top: 15px;
-            }
-            
-            .hero h1 {
-                font-size: 36px;
-            }
-            
-            .hero p {
-                font-size: 18px;
-            }
-            
-            .payment-methods {
-                flex-direction: column;
-            }
-            
-            .cart-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .cart-item-image {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-        }
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
 
-        /* Added to cart animation */
-        .added-to-cart {
-            background-color: var(--success) !important;
-            color: white !important;
+    <style>
+        .product-card {
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
     </style>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- Header -->
-    <header>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">Style<span>Hub</span></a>
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Men</a></li>
-                        <li><a href="#">Women</a></li>
-                        <li><a href="#">Kids</a></li>
-                        <li><a href="#">Sale</a></li>
-                    </ul>
-                </nav>
-                <div class="cart-icon" id="cartIcon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+            <a class="navbar-brand fw-bold" href="#" onclick="trackEvent('brand_click')">
+                🛍️ Arrong Practice Store
+            </a>
+            
+            <div class="navbar-nav ms-auto d-flex align-items-center">
+                <a class="nav-link mx-2" href="#home" onclick="trackEvent('nav_click', 'home')">Home</a>
+                <a class="nav-link mx-2" href="#products" onclick="trackEvent('nav_click', 'products')">Products</a>
+                
+                <div class="position-relative">
+                    <a class="nav-link mx-2" href="#cart" onclick="trackEvent('nav_click', 'cart')">
+                        🛒 Cart
+                        <span id="cartCount" class="cart-badge badge bg-danger">0</span>
+                    </a>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Home Section -->
+    <section id="home" class="hero-section py-5">
         <div class="container">
-            <h1>Summer Collection 2023</h1>
-            <p>Discover the latest trends in fashion with our exclusive summer collection. Up to 50% off on selected items.</p>
-            <a href="#products" class="btn">Shop Now</a>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products">
-        <div class="container">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid">
-                <!-- Product 1 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Men's Casual Shirt" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Men's Casual Shirt</h3>
-                        <p class="product-price">$29.99</p>
-                        <button class="add-to-cart" onclick="addToCart('1', 'Men\\'s Casual Shirt', 29.99, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80')">Add to Cart</button>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold">Practice E-commerce Store</h1>
+                    <p class="lead">Learn Google Analytics, Ads & Tag Manager with real examples</p>
+                    <div class="mt-4">
+                        <button class="btn btn-light btn-lg me-3" onclick="trackEvent('cta_click', 'shop_now')">
+                            Shop Now
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="trackEvent('cta_click', 'learn_more')">
+                            Learn More
+                        </button>
                     </div>
                 </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80" alt="Women's Summer Dress" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Women's Summer Dress</h3>
-                        <p class="product-price">$39.99</p>
-                        <button class="add-to-cart" onclick="addToCart('2', 'Women\\'s Summer Dress', 39.99, 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1505022610485-0245ef5e5e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80" alt="Men's Denim Jeans" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Men's Denim Jeans</h3>
-                        <p class="product-price">$49.99</p>
-                        <button class="add-to-cart" onclick="addToCart('3', 'Men\\'s Denim Jeans', 49.99, 'https://images.unsplash.com/photo-1505022610485-0245ef5e5e04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1589810635657-232948472d98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80" alt="Women's Blazer" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Women's Blazer</h3>
-                        <p class="product-price">$59.99</p>
-                        <button class="add-to-cart" onclick="addToCart('4', 'Women\\'s Blazer', 59.99, 'https://images.unsplash.com/photo-1589810635657-232948472d98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80')">Add to Cart</button>
-                    </div>
-                </div>
-                
-                <!-- Product 5 -->
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Unisex Hoodie" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">Unisex Hoodie</h3>
-                        <p class="product-price">$34.99</p>
-                        <button class="add-to-cart" onclick="addToCart('5', 'Unisex Hoodie', 34.99, 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80')">Add to Cart</button>
-                    </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://via.placeholder.com/500x300" alt="Store" class="img-fluid rounded">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Your Shopping Cart</h2>
-                <button class="close-modal" onclick="closeCart()">&times;</button>
+    <!-- Products Section -->
+    <section id="products" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">🎯 Our Products (10 Items)</h2>
+            
+            <!-- Analytics Demo Buttons -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <h5>📊 Analytics & Ads Practice Buttons:</h5>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary" onclick="trackEvent('practice', 'button_click')">Track Click</button>
+                            <button class="btn btn-outline-success" onclick="trackConversion('signup')">Track Conversion</button>
+                            <button class="btn btn-outline-warning" onclick="trackPurchaseDemo()">Track Purchase</button>
+                            <button class="btn btn-outline-danger" onclick="trackScroll()">Track Scroll</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="cart-items" id="cartItems">
-                <p id="emptyCartMessage" style="text-align: center; padding: 20px; color: var(--gray);">Your cart is empty</p>
-            </div>
-            <div class="cart-total" id="cartTotal" style="display: none;">Total: $0.00</div>
-            <button class="btn" id="checkoutBtn" style="display: none; width: 100%;" onclick="beginCheckout()">Proceed to Checkout</button>
-        </div>
-    </div>
 
-    <!-- Checkout Modal -->
-    <div class="modal" id="checkoutModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Checkout</h2>
-                <button class="close-m
+            <div class="row" id="productsContainer">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="py-5 bg-light" style="display: none;">
+        <div class="container">
+            <h2 class="text-center mb-5">🛒 Your Shopping Cart</h2>
+            <div id="cartItems" class="row">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-success btn-lg" onclick="trackPurchase()">Complete Purchase</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Practice Section -->
+    <section class="py-5 bg-dark text-white">
+        <div class="container">
+            <h3 class="text-center mb-4">🎓 Google Analytics & Ads Practice Area</h3>
+            <div class="row text-center">
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-info w-100" onclick="trackEvent('practice', 'page_view_home')">
+                        Track Page View
+                    </button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-success w-100" onclick="trackEvent('practice', 'add_to_cart_demo')">
+                        Add to Cart Event
+                    </button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-warning w-100" onclick="trackEvent('practice', 'product_view_demo')">
+                        Product View Event
+                    </button>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-danger w-100" onclick="trackEvent('practice', 'checkout_start')">
+                        Checkout Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 📊 Google Analytics & Ads Tracking Functions
+        function trackEvent(category, action, label, value) {
+            // Google Analytics 4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', action, {
+                    'event_category': category,
+                    'event_label': label,
+                    'value': value
+                });
+            }
+            
+            // Console log for practice
+            console.log('📊 Event Tracked:', { category, action, label, value });
+            
+            // Show notification
+            showNotification(`Event tracked: ${category} - ${action}`);
+        }
+
+        function trackConversion(type) {
+            // Google Ads Conversion Tracking
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-XXXXXXXXXX/conversion_label',
+                    'value': 1.0,
+                    'currency': 'USD',
+                    'transaction_id': ''
+                });
+            }
+            
+            console.log('💰 Conversion Tracked:', type);
+            showNotification('Conversion tracked successfully!');
+        }
+
+        function trackPurchase() {
+            const cart = getCart();
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Google Analytics 4 E-commerce Tracking
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    transaction_id: 'T_' + Date.now(),
+                    value: total,
+                    currency: 'USD',
+                    items: cart.map(item => ({
+                        item_id: item.id,
+                        item_name: item.name,
+                        price: item.price,
+                        quantity: item.quantity
+                    }))
+                });
+            }
+            
+            console.log('🎉 Purchase Completed:', { total, items: cart });
+            showNotification('Purchase completed! Check Google Analytics.');
+            clearCart();
+        }
+
+        function trackScroll() {
+            trackEvent('engagement', 'scroll', 'page_bottom');
+            showNotification('Scroll event tracked!');
+        }
+
+        // 🛍️ E-commerce Functions
+        const products = [
+            {id: 1, name: "Men's Cotton T-Shirt", price: 599, category: "men", image: "https://via.placeholder.com/300x300/007bff/ffffff?text=T-Shirt", description: "Comfortable cotton t-shirt"},
+            {id: 2, name: "Women's Summer Dress", price: 1299, category: "women", image: "https://via.placeholder.com/300x300/e83e8c/ffffff?text=Dress", description: "Beautiful summer dress"},
+            {id: 3, name: "Kids Sports Shoes", price: 899, category: "kids", image: "https://via.placeholder.com/300x300/28a745/ffffff?text=Shoes", description: "Comfortable sports shoes"},
+            {id: 4, name: "Men's Jeans", price: 799, category: "men", image: "https://via.placeholder.com/300x300/6f42c1/ffffff?text=Jeans", description: "Classic blue jeans"},
+            {id: 5, name: "Women's Handbag", price: 1599, category: "women", image: "https://via.placeholder.com/300x300/fd7e14/ffffff?text=Handbag", description: "Elegant leather handbag"},
+            {id: 6, name: "Kids Backpack", price: 499, category: "kids", image: "https://via.placeholder.com/300x300/20c997/ffffff?text=Backpack", description: "School backpack"},
+            {id: 7, name: "Men's Watch", price: 1999, category: "men", image: "https://via.placeholder.com/300x300/d63384/ffffff?text=Watch", description: "Luxury wrist watch"},
+            {id: 8, name: "Women's Sunglasses", price: 699, category: "women", image: "https://via.placeholder.com/300x300/0dcaf0/ffffff?text=Glasses", description: "UV protection sunglasses"},
+            {id: 9, name: "Kids Toy Set", price: 399, category: "kids", image: "https://via.placeholder.com/300x300/ffc107/ffffff?text=Toys", description: "Educational toy set"},
+            {id: 10, name: "Unisex Cap", price: 299, category: "accessories", image: "https://via.placeholder.com/300x300/6610f2/ffffff?text=Cap", description: "Baseball cap"}
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function displayProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = products.map(product => `
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.description}</p>
+                            <p class="fw-bold text-primary">$${product.price}</p>
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">
+                                Add to Cart
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="viewProduct(${product.id})">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCart();
+            trackEvent('ecommerce', 'add_to_cart', product.name, product.price);
+            showNotification(`${product.name} added to cart!`);
+        }
+
+        function viewProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            trackEvent('ecommerce', 'product_view', product.name, product.price);
+            alert(`Viewing: ${product.name}\nPrice: $${product.price}\n\nThis view has been tracked in Google Analytics!`);
+        }
+
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            const cartItems = document.getElementById('cartItems');
+            if (cartItems) {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>${item.name}</h5>
+                                    <p>$${item.price} x ${item.quantity} = $${item.price * item.quantity}</p>
+                                </div>
+                                <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+            trackEvent('ecommerce', 'remove_from_cart', 'product_removed');
+        }
+
+        function getCart() {
+            return cart;
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCart();
+        }
+
+        function showCart() {
+            document.getElementById('cart').style.display = 'block';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('home').style.display = 'none';
+        }
+
+        function showProducts() {
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('home').style.display = 'none';
+        }
+
+        function showHome() {
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('home').style.display = 'block';
+        }
+
+        function showNotification(message) {
+            // Create a simple notification
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-info position-fixed';
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Demo function for practice
+        function trackPurchaseDemo() {
+            trackEvent('practice', 'purchase_demo', 'demo_purchase', 100);
+            showNotification('Demo purchase tracked! Check Google Analytics.');
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts();
+            updateCart();
+            trackEvent('page', 'view', 'home_page');
+        });
+
+        // Navigation functions
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = this.getAttribute('href').substring(1);
+                
+                if (target === 'home') showHome();
+                if (target === 'products') showProducts();
+                if (target === 'cart') showCart();
+            });
+        });
+    </script>
+</body>
+</html>
