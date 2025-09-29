@@ -11,14 +11,21 @@
     .btn { background:#2d89ef; color:white; padding:10px 20px; border:none; border-radius:5px; text-decoration:none; }
     .btn:hover { background:#1a5fb4; }
   </style>
-  <!-- GTM -->
+
+  <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
+  <!-- End Google Tag Manager -->
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <header><h1>🛍️ Demo Shop</h1></header>
   <main>
     <div class="product">
@@ -27,13 +34,12 @@
       <a href="cart.html" class="btn">Add to Cart</a>
     </div>
   </main>
+
   <script>
     dataLayer = window.dataLayer || [];
     dataLayer.push({
       event: "view_item",
-      ecommerce: {
-        items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00 }]
-      }
+      ecommerce: { items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00 }] }
     });
   </script>
 </body>
