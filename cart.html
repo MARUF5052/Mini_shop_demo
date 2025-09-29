@@ -9,20 +9,30 @@
     .btn { background:#28a745; color:white; padding:10px 20px; border:none; border-radius:5px; text-decoration:none; }
     .btn:hover { background:#1e7e34; }
   </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
   <div class="cart">
     <h1>Your Cart</h1>
     <p>1x Stylish Shirt - $50</p>
     <a href="checkout.html" class="btn">Proceed to Checkout</a>
   </div>
+
   <script>
     dataLayer = window.dataLayer || [];
     dataLayer.push({
       event: "view_cart",
-      ecommerce: {
-        items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }]
-      }
+      ecommerce: { items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }] }
     });
   </script>
 </body>
