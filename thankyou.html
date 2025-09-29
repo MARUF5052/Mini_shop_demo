@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Demo Shop - Thank You</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f4f9; padding:40px; text-align:center; }
+    .box { background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); display:inline-block; }
+  </style>
 </head>
 <body>
-  <h1>Thank You for Your Purchase!</h1>
-  <p>Your order has been placed successfully.</p>
+  <div class="box">
+    <h1>🎉 Thank You for Your Purchase!</h1>
+    <p>Your order has been placed successfully.</p>
+  </div>
 
   <script>
-    // Get form values from URL
     const params = new URLSearchParams(window.location.search);
     const firstName = params.get("first_name");
     const lastName = params.get("last_name");
@@ -19,21 +24,23 @@
     const state = params.get("state");
     const address = params.get("address");
 
-    // Hashing function (SHA256)
     async function sha256(input) {
       const encoder = new TextEncoder();
       const data = encoder.encode(input.trim().toLowerCase());
       const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,"0")).join("");
     }
 
-    // Push Enhanced Conversion Data to dataLayer
     async function pushUserData() {
+      dataLayer = window.dataLayer || [];
       dataLayer.push({
         event: "purchase",
         transaction_id: "TXN" + Math.floor(Math.random()*1000000),
         value: 50.00,
         currency: "USD",
+        ecommerce: {
+          items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }]
+        },
         user_data: {
           email: email ? await sha256(email) : "",
           phone_number: phone ? await sha256(phone) : "",
@@ -47,7 +54,6 @@
         }
       });
     }
-
     pushUserData();
   </script>
 </body>
