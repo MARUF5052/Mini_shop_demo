@@ -3,10 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Demo Shop - Cart</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f4f9; padding:40px; text-align:center; }
+    .cart { background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); display:inline-block; }
+    .btn { background:#28a745; color:white; padding:10px 20px; border:none; border-radius:5px; text-decoration:none; }
+    .btn:hover { background:#1e7e34; }
+  </style>
 </head>
 <body>
-  <h1>Your Cart</h1>
-  <p>1x Stylish Shirt - $50</p>
-  <a href="checkout.html">Proceed to Checkout</a>
+  <div class="cart">
+    <h1>Your Cart</h1>
+    <p>1x Stylish Shirt - $50</p>
+    <a href="checkout.html" class="btn">Proceed to Checkout</a>
+  </div>
+  <script>
+    dataLayer = window.dataLayer || [];
+    dataLayer.push({
+      event: "view_cart",
+      ecommerce: {
+        items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }]
+      }
+    });
+  </script>
 </body>
 </html>
