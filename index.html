@@ -1,898 +1,223 @@
-<!DOCTYPE html>
+<!--
+GA4 + Google Tag Manager + Google Ads practice site
+File: GA4_GTM_GoogleAds_Practice_site.html
+Instructions:
+1) Replace GTM_CONTAINER_ID with your GTM container ID (GTM-XXXXXXX).
+2) In GTM, add a GA4 Configuration tag (Measurement ID: GA4_MEASUREMENT_ID) and enable 'Send a page_view event when this configuration loads' OR add GA4 through gtag if you prefer.
+3) Create GA4 Event tags (e.g. add_to_cart, purchase) and/or Google Ads conversion tags inside GTM and trigger them on the dataLayer events pushed by this page.
+4) Use GTM Preview mode and GA4 DebugView to test events; use Google Ads conversion tracking debug tools to confirm conversions.
+
+This single-file site contains a small product, dataLayer pushes for ecommerce events, and mock flows to practice:
+- page_view (automatic via GTM config)
+- view_item (on product open)
+- add_to_cart (button)
+- begin_checkout (button)
+- purchase (mock checkout flow)
+
+You can publish this file to GitHub and enable GitHub Pages for practice.
+-->
+
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arrong Style - Complete E-commerce</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEMO1234"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DEMO1234');
-    </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Practice GA4 / GTM / Google Ads - Mini Shop</title>
+  <meta name="description" content="Small demo site to practice Google Tag Manager, GA4 and Google Ads conversion tracking">
+  <style>
+    /* Simple styles for demo */
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;margin:0;background:#f7f7fb;color:#111}
+    header{background:#0f172a;color:#fff;padding:18px 24px}
+    .container{max-width:960px;margin:28px auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(16,24,40,.06)}
+    img.product{width:100%;border-radius:8px}
+    button{background:#0ea5a4;border:none;padding:12px 16px;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
+    .muted{color:#64748b;font-size:14px}
+    footer{padding:18px;text-align:center;color:#64748b}
+    .small{font-size:13px}
+  </style>
 
-    <style>
-        :root {
-            --primary: #6f42c1;
-            --secondary: #e83e8c;
-            --success: #28a745;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .page-section {
-            display: none;
-            min-height: 80vh;
-            padding: 40px 0;
-        }
-        
-        .page-active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
-            color: white;
-            padding: 100px 0;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 40px;
-        }
-        
-        .product-card {
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .product-image {
-            height: 250px;
-            object-fit: cover;
-            width: 100%;
-        }
-        
-        .price-tag {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
-        
-        .form-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-        
-        .order-summary {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 100px;
-        }
-        
-        .success-animation {
-            font-size: 5rem;
-            color: var(--success);
-            margin-bottom: 20px;
-        }
-        
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0;
-        }
-        
-        .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 15px;
-            font-weight: bold;
-            position: relative;
-        }
-        
-        .step:not(:last-child):after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -30px;
-            width: 30px;
-            height: 2px;
-            background: #ddd;
-        }
-        
-        .step.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .step.completed {
-            background: var(--success);
-            color: white;
-        }
-        
-        .step.completed:after {
-            background: var(--success);
-        }
-        
-        footer {
-            background: #343a40;
-            color: white;
-            padding: 40px 0;
-            margin-top: 50px;
-        }
-    </style>
+  <!-- Google Tag Manager (GTM) - replace GTM-XXXXXXX with your GTM container ID -->
+  <!-- Put this as high in the <head> as possible -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+  <!-- End GTM -->
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#" onclick="showPage('home')">
-                <i class="fas fa-store me-2"></i>Arrong Style
-            </a>
-            <div class="navbar-nav ms-auto d-flex align-items-center">
-                <a class="nav-link" href="#" onclick="showPage('home')">Home</a>
-                <a class="nav-link" href="#" onclick="showPage('products')">Products</a>
-                <a class="nav-link position-relative" href="#" onclick="showPage('cart')">
-                    <i class="fas fa-shopping-cart me-1"></i> Cart
-                    <span id="cartCount" class="cart-badge badge bg-danger rounded-pill">0</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End GTM noscript -->
 
-    <!-- Step Indicator -->
-    <div class="step-indicator container">
-        <div class="step" id="step1">1</div>
-        <div class="step" id="step2">2</div>
-        <div class="step" id="step3">3</div>
-        <div class="step" id="step4">4</div>
-        <div class="step" id="step5">5</div>
+  <header>
+    <div class="container">
+      <h1 style="margin:0;font-size:20px">Mini Shop — GA4 / GTM / Google Ads Practice</h1>
+      <div class="muted small">Replace <code>GTM-XXXXXXX</code> in source with your container ID before publishing.</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <section>
+        <div class="card">
+          <img class="product" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80" alt="Sample Product">
+          <h2>Cozy Cashmere Scarf</h2>
+          <p class="muted">Soft, warm and stylish — a demo product for tracking events.</p>
+          <p style="font-weight:700;font-size:18px;margin-top:10px">৳1,250</p>
+
+          <div style="margin-top:14px;display:flex;gap:12px">
+            <button id="addToCartBtn">Add to Cart</button>
+            <button id="buyNowBtn" style="background:#7c3aed">Buy Now</button>
+          </div>
+
+          <div style="margin-top:12px" class="muted small">Buttons push ecommerce events to <code>dataLayer</code> so you can trigger tags in GTM.</div>
+        </div>
+
+        <div style="margin-top:16px" class="card">
+          <h3>Flow Tester</h3>
+          <p class="muted">Use these to simulate customer actions. GTM preview & GA4 DebugView will show the events.</p>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="viewItemBtn" style="background:#2563eb">View Item</button>
+            <button id="beginCheckoutBtn" style="background:#f59e0b">Begin Checkout</button>
+            <button id="purchaseBtn" style="background:#16a34a">Complete Purchase</button>
+          </div>
+        </div>
+
+      </section>
+
+      <aside>
+        <div class="card">
+          <h3>Your Cart</h3>
+          <div id="cartContents" style="margin-top:12px">
+            <div class="muted">Cart is empty</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h4>Testing Tips</h4>
+          <ul class="muted small">
+            <li>Open GTM preview (Tag Assistant) and watch for dataLayer events.</li>
+            <li>In GA4, open DebugView to see events live (use debug mode or GTM debug).</li>
+            <li>Create triggers in GTM that fire on these event names: <code>view_item</code>, <code>add_to_cart</code>, <code>begin_checkout</code>, <code>purchase</code>.</li>
+            <li>Map ecommerce parameters in tags (value, currency, items[]).</li>
+            <li>For Google Ads conversions, create a Google Ads Conversion tag in GTM and fire it on the <code>purchase</code> event (or map via GA4->Google Ads).</li>
+          </ul>
+        </div>
+
+      </aside>
     </div>
 
-    <!-- ==================== -->
-    <!-- HOME PAGE -->
-    <!-- ==================== -->
-    <section id="home" class="page-section page-active">
-        <div class="hero-section">
-            <div class="container text-center">
-                <h1 class="display-4 fw-bold mb-4">Welcome to Arrong Style</h1>
-                <p class="lead mb-4">Discover the latest fashion trends at amazing prices</p>
-                <button class="btn btn-light btn-lg" onclick="showPage('products')">
-                    Start Shopping <i class="fas fa-arrow-right ms-2"></i>
-                </button>
-            </div>
-        </div>
+    <div style="margin-top:18px" class="card">
+      <h3>Console Logger</h3>
+      <div class="muted small">Events pushed to <code>dataLayer</code> will also be shown in the browser console for quick debugging.</div>
+      <pre id="log" style="background:#0b1220;color:#e6eef8;padding:12px;border-radius:8px;margin-top:10px;max-height:180px;overflow:auto">Ready to log events...</pre>
+    </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 text-center mb-4">
-                    <div class="card product-card">
-                        <div class="card-body py-5">
-                            <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
-                            <h5>Free Shipping</h5>
-                            <p>On orders over $50</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center mb-4">
-                    <div class="card product-card">
-                        <div class="card-body py-5">
-                            <i class="fas fa-undo-alt fa-3x text-primary mb-3"></i>
-                            <h5>Easy Returns</h5>
-                            <p>30-day return policy</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-center mb-4">
-                    <div class="card product-card">
-                        <div class="card-body py-5">
-                            <i class="fas fa-lock fa-3x text-primary mb-3"></i>
-                            <h5>Secure Payment</h5>
-                            <p>100% secure payment</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  </main>
 
-    <!-- ==================== -->
-    <!-- PRODUCTS PAGE -->
-    <!-- ==================== -->
-    <section id="products" class="page-section">
-        <div class="container py-5">
-            <h1 class="text-center mb-5">Our Products</h1>
-            
-            <div class="text-center mb-4">
-                <button class="btn btn-outline-primary active" onclick="filterProducts('all')">All</button>
-                <button class="btn btn-outline-primary" onclick="filterProducts('men')">Men</button>
-                <button class="btn btn-outline-primary" onclick="filterProducts('women')">Women</button>
-                <button class="btn btn-outline-primary" onclick="filterProducts('kids')">Kids</button>
-            </div>
+  <footer>
+    <div class="container">Made for practice • Replace container and IDs before publishing</div>
+  </footer>
 
-            <div class="row" id="productsContainer">
-                <!-- Products loaded by JavaScript -->
-            </div>
-        </div>
-    </section>
+  <script>
+    // Simple data model for demo product
+    const product = {
+      id: 'scarf-001',
+      name: 'Cozy Cashmere Scarf',
+      category: 'Apparel/Scarves',
+      price: 1250,
+      currency: 'BDT'
+    };
 
-    <!-- ==================== -->
-    <!-- PRODUCT DETAIL PAGE -->
-    <!-- ==================== -->
-    <section id="product-detail" class="page-section">
-        <div class="container py-5">
-            <button class="btn btn-secondary mb-4" onclick="showPage('products')">
-                <i class="fas fa-arrow-left me-2"></i> Back to Products
-            </button>
-            
-            <div class="row" id="productDetailContainer">
-                <!-- Product details loaded by JavaScript -->
-            </div>
-        </div>
-    </section>
+    // utility: push to dataLayer and log
+    function pushEvent(eventName, eventObj){
+      const payload = {event: eventName, ...eventObj};
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(payload);
+      const log = document.getElementById('log');
+      log.textContent = '\n>> ' + new Date().toLocaleTimeString() + ' pushed: ' + JSON.stringify(payload, null, 2) + '\n' + log.textContent;
+      console.info('dataLayer push:', payload);
+    }
 
-    <!-- ==================== -->
-    <!-- CART PAGE -->
-    <!-- ==================== -->
-    <section id="cart" class="page-section">
-        <div class="container py-5">
-            <h1 class="text-center mb-5">Your Shopping Cart</h1>
-            
-            <div id="cartItemsContainer" class="mb-4">
-                <!-- Cart items loaded by JavaScript -->
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-primary me-3" onclick="showPage('products')">
-                    Continue Shopping
-                </button>
-                <button class="btn btn-success" onclick="beginCheckout()" id="checkoutBtn">
-                    Proceed to Checkout <i class="fas fa-arrow-right ms-2"></i>
-                </button>
-            </div>
-        </div>
-    </section>
+    // initial page view push (optional - GTM GA4 config often sends page_view automatically)
+    pushEvent('page_view', {page_title: document.title, page_path: location.pathname});
 
-    <!-- ==================== -->
-    <!-- CHECKOUT PAGE -->
-    <!-- ==================== -->
-    <section id="checkout" class="page-section">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="form-section">
-                        <h4 class="mb-4"><i class="fas fa-user me-2"></i>Billing Information</h4>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">First Name *</label>
-                                <input type="text" class="form-control" id="billingFirstName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Last Name *</label>
-                                <input type="text" class="form-control" id="billingLastName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Email *</label>
-                                <input type="email" class="form-control" id="billingEmail" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Mobile Number *</label>
-                                <input type="tel" class="form-control" id="billingMobile" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Country *</label>
-                                <select class="form-control" id="billingCountry" required>
-                                    <option value="">Select Country</option>
-                                    <option value="Bangladesh">Bangladesh</option>
-                                    <option value="India">India</option>
-                                    <option value="USA">USA</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">State *</label>
-                                <input type="text" class="form-control" id="billingState" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">City *</label>
-                                <input type="text" class="form-control" id="billingCity" required>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label class="form-label">Religion</label>
-                                <select class="form-control" id="billingReligion">
-                                    <option value="">Select Religion</option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Hinduism">Hinduism</option>
-                                    <option value="Christianity">Christianity</option>
-                                    <option value="Buddhism">Buddhism</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="sameAsBilling">
-                            <label class="form-check-label" for="sameAsBilling">
-                                Shipping address same as billing
-                            </label>
-                        </div>
-
-                        <div id="shippingInfo">
-                            <h4 class="mb-4"><i class="fas fa-truck me-2"></i>Shipping Information</h4>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">First Name *</label>
-                                    <input type="text" class="form-control" id="shippingFirstName" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Last Name *</label>
-                                    <input type="text" class="form-control" id="shippingLastName" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="shippingEmail" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Mobile Number *</label>
-                                    <input type="tel" class="form-control" id="shippingMobile" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Country *</label>
-                                    <select class="form-control" id="shippingCountry" required>
-                                        <option value="">Select Country</option>
-                                        <option value="Bangladesh">Bangladesh</option>
-                                        <option value="India">India</option>
-                                        <option value="USA">USA</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">State *</label>
-                                    <input type="text" class="form-control" id="shippingState" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">City *</label>
-                                    <input type="text" class="form-control" id="shippingCity" required>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Religion</label>
-                                    <select class="form-control" id="shippingReligion">
-                                        <option value="">Select Religion</option>
-                                        <option value="Islam">Islam</option>
-                                        <option value="Hinduism">Hinduism</option>
-                                        <option value="Christianity">Christianity</option>
-                                        <option value="Buddhism">Buddhism</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h4 class="mb-4"><i class="fas fa-credit-card me-2"></i>Payment Method</h4>
-                        
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" checked>
-                            <label class="form-check-label" for="cod">
-                                <i class="fas fa-money-bill-wave me-2"></i> Cash on Delivery
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="card">
-                            <label class="form-check-label" for="card">
-                                <i class="fas fa-credit-card me-2"></i> Credit/Debit Card
-                            </label>
-                        </div>
-
-                        <button class="btn btn-success btn-lg w-100 mt-4" onclick="processPurchase()">
-                            <i class="fas fa-lock me-2"></i> Complete Purchase
-                        </button>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="order-summary">
-                        <h4 class="mb-4"><i class="fas fa-receipt me-2"></i>Order Summary</h4>
-                        
-                        <div id="orderSummary">
-                            <!-- Order items loaded by JavaScript -->
-                        </div>
-                        
-                        <hr>
-                        <div class="d-flex justify-content-between fw-bold fs-5">
-                            <span>Total:</span>
-                            <span id="orderTotal">$0.00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== -->
-    <!-- PURCHASE COMPLETE PAGE -->
-    <!-- ==================== -->
-    <section id="purchase-complete" class="page-section">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8 text-center">
-                    <div class="form-section">
-                        <div class="success-animation">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <h2 class="text-success mb-3">Purchase Completed Successfully!</h2>
-                        <p class="lead mb-4">Thank you for your order. Your order number is: <strong>#ORD-<span id="orderNumber"></span></strong></p>
-                        <p>You will receive a confirmation email shortly.</p>
-                        
-                        <div class="mt-5">
-                            <button class="btn btn-primary me-3" onclick="showPage('home')">
-                                <i class="fas fa-home me-2"></i> Back to Home
-                            </button>
-                            <button class="btn btn-outline-primary" onclick="showPage('products')">
-                                <i class="fas fa-shopping-bag me-2"></i> Continue Shopping
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>&copy; 2023 Arrong Style. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // 📊 Google Analytics Tracking
-        function trackEvent(category, action, label, value) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', action, {
-                    'event_category': category,
-                    'event_label': label,
-                    'value': value
-                });
-            }
-            console.log('📊 Event Tracked:', { category, action, label, value });
+    // view item
+    document.getElementById('viewItemBtn').addEventListener('click', ()=>{
+      pushEvent('view_item', {
+        ecommerce: {
+          items: [{item_id: product.id, item_name: product.name, item_category: product.category, price: product.price, currency: product.currency}]
         }
+      });
+    });
 
-        // 🛍️ Product Data
-        const products = [
-            {
-                id: 1, 
-                name: "Men's Premium Cotton T-Shirt", 
-                price: 599, 
-                category: "men", 
-                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&w=500",
-                headline: "Ultimate Comfort & Style",
-                description: "Experience unmatched comfort with our premium cotton t-shirt. Made from 100% organic cotton, this t-shirt offers superior breathability and softness.",
-                features: ["100% Organic Cotton", "Machine Washable", "Available in 5 Colors"],
-                sizes: ["S", "M", "L", "XL"],
-                colors: ["Black", "White", "Blue", "Gray"]
-            },
-            {
-                id: 2, 
-                name: "Women's Elegant Summer Dress", 
-                price: 1299, 
-                category: "women", 
-                image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&w=500",
-                headline: "Elegance Redefined",
-                description: "Discover the perfect blend of style and comfort with our elegant summer dress. Featuring a flowy design and lightweight fabric.",
-                features: ["Lightweight Fabric", "Adjustable Waist", "Wrinkle-Resistant"],
-                sizes: ["S", "M", "L"],
-                colors: ["Red", "Blue", "Yellow", "Pink"]
-            },
-            {
-                id: 3, 
-                name: "Kids Sports Running Shoes", 
-                price: 899, 
-                category: "kids", 
-                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&w=500",
-                headline: "Comfortable & Durable",
-                description: "Keep your kids active and comfortable with our sports running shoes. Designed with extra cushioning and flexible soles.",
-                features: ["Extra Cushioning", "Breathable Mesh", "Non-Slip Soles"],
-                sizes: ["28", "30", "32", "34"],
-                colors: ["Blue", "Red", "Green", "Black"]
-            }
-        ];
-
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let currentProduct = null;
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            displayProducts();
-            updateStepIndicator(1);
-            
-            // Same as billing functionality
-            document.getElementById('sameAsBilling').addEventListener('change', function() {
-                const shippingInfo = document.getElementById('shippingInfo');
-                if (this.checked) {
-                    shippingInfo.style.display = 'none';
-                    copyBillingToShipping();
-                } else {
-                    shippingInfo.style.display = 'block';
-                }
-            });
-            
-            trackEvent('page', 'view', 'home_page');
-        });
-
-        // Show different pages
-        function showPage(pageName) {
-            // Hide all pages
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('page-active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageName).classList.add('page-active');
-            
-            // Update step indicator
-            const stepMap = {
-                'home': 1,
-                'products': 1,
-                'product-detail': 2,
-                'cart': 3,
-                'checkout': 4,
-                'purchase-complete': 5
-            };
-            
-            if (stepMap[pageName]) {
-                updateStepIndicator(stepMap[pageName]);
-            }
-            
-            // Track page view
-            trackEvent('navigation', 'page_view', pageName);
+    // add to cart
+    document.getElementById('addToCartBtn').addEventListener('click', ()=>{
+      pushEvent('add_to_cart', {
+        ecommerce: {
+          value: product.price,
+          currency: product.currency,
+          items: [{item_id: product.id, item_name: product.name, price: product.price, quantity: 1}]
         }
+      });
+      updateCartUI();
+    });
 
-        // Display Products
-        function displayProducts() {
-            const container = document.getElementById('productsContainer');
-            container.innerHTML = products.map(product => `
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card product-card h-100">
-                        <img src="${product.image}" class="product-image" alt="${product.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${product.name}</h5>
-                            <p class="card-text">${product.headline}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="price-tag">$${product.price}</span>
-                                <button class="btn btn-primary" onclick="viewProductDetail(${product.id})">
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+    // buy now -> begin checkout -> simulate checkout
+    document.getElementById('buyNowBtn').addEventListener('click', ()=>{
+      pushEvent('begin_checkout', {
+        ecommerce: {items:[{item_id:product.id,item_name:product.name,quantity:1,price:product.price}],value:product.price,currency:product.currency}
+      });
+      // auto-open a fake checkout UI (for demo we just call purchase after prompt)
+      setTimeout(()=>{
+        if(confirm('Simulate completing purchase for ৳' + product.price + '?')){
+          completePurchase();
         }
+      },200);
+    });
 
-        // Filter Products
-        function filterProducts(category) {
-            document.querySelectorAll('.btn-outline-primary').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const container = document.getElementById('productsContainer');
-            const filteredProducts = category === 'all' ? products : 
-                                   products.filter(p => p.category === category);
-            
-            container.innerHTML = filteredProducts.map(product => `
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card product-card h-100">
-                        <img src="${product.image}" class="product-image" alt="${product.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${product.name}</h5>
-                            <p class="card-text">${product.headline}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="price-tag">$${product.price}</span>
-                                <button class="btn btn-primary" onclick="viewProductDetail(${product.id})">
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            trackEvent('filter', 'category', category);
+    document.getElementById('beginCheckoutBtn').addEventListener('click', ()=>{
+      pushEvent('begin_checkout', {
+        ecommerce: {items:[{item_id:product.id,item_name:product.name,quantity:1,price:product.price}],value:product.price,currency:product.currency}
+      });
+    });
+
+    document.getElementById('purchaseBtn').addEventListener('click', ()=>{
+      completePurchase();
+    });
+
+    function completePurchase(){
+      const transactionId = 'T_' + Date.now();
+      pushEvent('purchase', {
+        transaction_id: transactionId,
+        ecommerce: {
+          transaction_id: transactionId,
+          value: product.price,
+          currency: product.currency,
+          items: [{item_id: product.id, item_name: product.name, price: product.price, quantity: 1}]
         }
+      });
+      // Example: you can also push custom info so GTM can forward to Google Ads (e.g., value, currency)
+      updateCartUI(true);
+      alert('Purchase simulated. Transaction ID: ' + transactionId);
+    }
 
-        // View Product Details
-        function viewProductDetail(productId) {
-            currentProduct = products.find(p => p.id === productId);
-            const container = document.getElementById('productDetailContainer');
-            
-            container.innerHTML = `
-                <div class="col-md-6">
-                    <img src="${currentProduct.image}" class="img-fluid rounded" alt="${currentProduct.name}">
-                </div>
-                <div class="col-md-6">
-                    <h2>${currentProduct.name}</h2>
-                    <h4 class="text-primary">${currentProduct.headline}</h4>
-                    <p class="price-tag fs-2">$${currentProduct.price}</p>
-                    
-                    <div class="mb-4">
-                        <h5>Product Description</h5>
-                        <p>${currentProduct.description}</p>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h5>Key Features</h5>
-                        <ul>
-                            ${currentProduct.features.map(feature => `<li>${feature}</li>`).join('')}
-                        </ul>
-                    </div>
-                    
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Size</label>
-                            <select class="form-control" id="productSize">
-                                ${currentProduct.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Color</label>
-                            <select class="form-control" id="productColor">
-                                ${currentProduct.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-success btn-lg w-100" onclick="addToCart(${productId})">
-                        <i class="fas fa-cart-plus me-2"></i> Add to Cart
-                    </button>
-                </div>
-            `;
-            
-            showPage('product-detail');
-            trackEvent('ecommerce', 'product_view', currentProduct.name, currentProduct.price);
-        }
+    function updateCartUI(purchased=false){
+      const cart = document.getElementById('cartContents');
+      if(purchased){
+        cart.innerHTML = '<div style="font-weight:700;color:#16a34a">Thank you — purchase completed</div>';
+      } else {
+        cart.innerHTML = '<div>1 × ' + product.name + ' — ৳' + product.price + '</div>';
+      }
+    }
 
-        // Add to Cart
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const size = document.getElementById('productSize').value;
-            const color = document.getElementById('productColor').value;
-            
-            const existingItem = cart.find(item => 
-                item.id === productId && item.size === size && item.color === color
-            );
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    ...product, 
-                    quantity: 1,
-                    size: size,
-                    color: color
-                });
-            }
-            
-            updateCart();
-            showPage('cart');
-            
-            trackEvent('ecommerce', 'add_to_cart', product.name, product.price);
-        }
+  </script>
 
-        // Update Cart Display
-        function updateCartDisplay() {
-            const container = document.getElementById('cartItemsContainer');
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-5">
-                        <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
-                        <h4>Your cart is empty</h4>
-                        <p>Start shopping to add items to your cart</p>
-                    </div>
-                `;
-                checkoutBtn.style.display = 'none';
-                return;
-            }
-            
-            checkoutBtn.style.display = 'inline-block';
-            
-            container.innerHTML = cart.map((item, index) => `
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-2">
-                                <img src="${item.image}" class="img-fluid rounded" alt="${item.name}">
-                            </div>
-                            <div class="col-md-4">
-                                <h5>${item.name}</h5>
-                                <p class="text-muted">Size: ${item.size} | Color: ${item.color}</p>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="input-group">
-                                    <button class="btn btn-outline-secondary" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
-                                    <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
-                                    <button class="btn btn-outline-secondary" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <h5>$${item.price * item.quantity}</h5>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-danger" onclick="removeFromCart(${index})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Update Quantity
-        function updateQuantity(index, newQuantity) {
-            if (newQuantity < 1) {
-                removeFromCart(index);
-                return;
-            }
-            
-            cart[index].quantity = newQuantity;
-            updateCart();
-        }
-
-        // Remove from Cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-            trackEvent('ecommerce', 'remove_from_cart', 'product_removed');
-        }
-
-        // Begin Checkout
-        function beginCheckout() {
-            showPage('checkout');
-            updateOrderSummary();
-            trackEvent('ecommerce', 'begin_checkout', '', getCartTotal());
-        }
-
-        // Process Purchase
-        function processPurchase() {
-            if (!validateCheckoutForm()) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
-            const orderTotal = getCartTotal();
-            trackEvent('ecommerce', 'purchase', '', orderTotal);
-            
-            const orderNumber = 'ORD-' + Date.now();
-            document.getElementById('orderNumber').textContent = orderNumber;
-            
-            showPage('purchase-complete');
-            
-            // Clear cart after purchase
-            setTimeout(() => {
-                cart = [];
-                updateCart();
-            }, 3000);
-        }
-
-        // Validate Checkout Form
-        function validateCheckoutForm() {
-            const requiredFields = [
-                'billingFirstName', 'billingLastName', 'billingEmail', 
-                'billingMobile', 'billingCountry', 'billingState', 'billingCity'
-            ];
-            
-            for (let field of requiredFields) {
-                const element = document.getElementById(field);
-                if (!element.value.trim()) {
-                    element.focus();
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Copy Billing to Shipping
-        function copyBillingToShipping() {
-            const fields = ['FirstName', 'LastName', 'Email', 'Mobile', 'Country', 'State', 'City', 'Religion'];
-            fields.forEach(field => {
-                const billingValue = document.getElementById('billing' + field).value;
-                document.getElementById('shipping' + field).value = billingValue;
-            });
-        }
-
-        // Update Order Summary
-        function updateOrderSummary() {
-            const container = document.getElementById('orderSummary');
-            const totalEl = document.getElementById('orderTotal');
-            const total = getCartTotal();
-            
-            container.innerHTML = cart.map(item => `
-                <div class="d-flex justify-content-between mb-2">
-                    <span>${item.name} (${item.size}, ${item.color}) x${item.quantity}</span>
-                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-            `).join('');
-            
-            totalEl.textContent = '$' + total.toFixed(2);
-        }
-
-        // Cart Management
-        function updateCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            updateCartDisplay();
-        }
-
-        function updateCartCount() {
-            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
-        }
-
-        function getCartTotal() {
-            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        }
-
-        // Step Indicator
-        function updateStepIndicator(activeStep) {
-            for (let i = 1; i <= 5; i++) {
-                const step = document.getElementById('step' + i);
-                step.className = 'step';
-                if (i === activeStep) {
-                    step.classList.add('active');
-                } else if (i < activeStep) {
-                    step.classList.add('completed');
-                }
-            }
-        }
-    </script>
 </body>
 </html>
