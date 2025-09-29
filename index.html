@@ -1,22 +1,3 @@
-<!--
-GA4 + Google Tag Manager + Google Ads practice site
-File: GA4_GTM_GoogleAds_Practice_site.html
-Instructions:
-1) Replace GTM_CONTAINER_ID with your GTM container ID (GTM-XXXXXXX).
-2) In GTM, add a GA4 Configuration tag (Measurement ID: GA4_MEASUREMENT_ID) and enable 'Send a page_view event when this configuration loads' OR add GA4 through gtag if you prefer.
-3) Create GA4 Event tags (e.g. add_to_cart, purchase) and/or Google Ads conversion tags inside GTM and trigger them on the dataLayer events pushed by this page.
-4) Use GTM Preview mode and GA4 DebugView to test events; use Google Ads conversion tracking debug tools to confirm conversions.
-
-This single-file site contains a small product, dataLayer pushes for ecommerce events, and mock flows to practice:
-- page_view (automatic via GTM config)
-- view_item (on product open)
-- add_to_cart (button)
-- begin_checkout (button)
-- purchase (mock checkout flow)
-
-You can publish this file to GitHub and enable GitHub Pages for practice.
--->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -38,27 +19,27 @@ You can publish this file to GitHub and enable GitHub Pages for practice.
     .small{font-size:13px}
   </style>
 
-  <!-- Google Tag Manager (GTM) - replace GTM-XXXXXXX with your GTM container ID -->
+  <!-- Google Tag Manager (GTM) - replaced with your GTM container ID -->
   <!-- Put this as high in the <head> as possible -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+    })(window,document,'script','dataLayer','GTM-K4C5MNCC');
   </script>
   <!-- End GTM -->
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End GTM noscript -->
 
   <header>
     <div class="container">
       <h1 style="margin:0;font-size:20px">Mini Shop — GA4 / GTM / Google Ads Practice</h1>
-      <div class="muted small">Replace <code>GTM-XXXXXXX</code> in source with your container ID before publishing.</div>
+      <div class="muted small">GTM container already set to <code>GTM-K4C5MNCC</code>.</div>
     </div>
   </header>
 
@@ -122,7 +103,7 @@ You can publish this file to GitHub and enable GitHub Pages for practice.
   </main>
 
   <footer>
-    <div class="container">Made for practice • Replace container and IDs before publishing</div>
+    <div class="container">Made for practice • GTM container set to GTM-K4C5MNCC</div>
   </footer>
 
   <script>
