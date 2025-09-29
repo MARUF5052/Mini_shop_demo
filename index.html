@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arrong Style - Fashion Store</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>Arrong Style - Complete E-commerce</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Google Analytics 4 -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEMO1234"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -24,12 +21,11 @@
             --primary: #6f42c1;
             --secondary: #e83e8c;
             --success: #28a745;
-            --light-bg: #f8f9fa;
         }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
         }
         
         .navbar-brand {
@@ -37,10 +33,26 @@
             font-size: 1.5rem;
         }
         
+        .page-section {
+            display: none;
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+        
+        .page-active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .hero-section {
             background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
             color: white;
-            padding: 80px 0;
+            padding: 100px 0;
             border-radius: 0 0 30px 30px;
             margin-bottom: 40px;
         }
@@ -75,23 +87,29 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            background: var(--secondary);
         }
         
-        .section-title {
-            position: relative;
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             margin-bottom: 30px;
-            padding-bottom: 15px;
         }
         
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--primary);
+        .order-summary {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .success-animation {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 20px;
         }
         
         .step-indicator {
@@ -137,52 +155,6 @@
             background: var(--success);
         }
         
-        .checkout-section {
-            display: none;
-        }
-        
-        .section-active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .form-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-        
-        .order-summary {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 100px;
-        }
-        
-        .success-animation {
-            font-size: 5rem;
-            color: var(--success);
-            margin-bottom: 20px;
-        }
-        
-        .category-filter {
-            margin-bottom: 30px;
-        }
-        
-        .category-btn {
-            margin: 5px;
-            border-radius: 20px;
-        }
-        
         footer {
             background: #343a40;
             color: white;
@@ -195,24 +167,16 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#" onclick="showSection('home')">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
                 <i class="fas fa-store me-2"></i>Arrong Style
             </a>
-            
             <div class="navbar-nav ms-auto d-flex align-items-center">
-                <a class="nav-link mx-2" href="#" onclick="showSection('home')">
-                    <i class="fas fa-home me-1"></i> Home
+                <a class="nav-link" href="#" onclick="showPage('home')">Home</a>
+                <a class="nav-link" href="#" onclick="showPage('products')">Products</a>
+                <a class="nav-link position-relative" href="#" onclick="showPage('cart')">
+                    <i class="fas fa-shopping-cart me-1"></i> Cart
+                    <span id="cartCount" class="cart-badge badge bg-danger rounded-pill">0</span>
                 </a>
-                <a class="nav-link mx-2" href="#" onclick="showSection('products')">
-                    <i class="fas fa-tshirt me-1"></i> Products
-                </a>
-                
-                <div class="position-relative">
-                    <a class="nav-link mx-2" href="#" onclick="showSection('cart')">
-                        <i class="fas fa-shopping-cart me-1"></i> Cart
-                        <span id="cartCount" class="cart-badge badge rounded-pill">0</span>
-                    </a>
-                </div>
             </div>
         </div>
     </nav>
@@ -226,13 +190,15 @@
         <div class="step" id="step5">5</div>
     </div>
 
-    <!-- Home Section -->
-    <section id="home" class="section-active">
+    <!-- ==================== -->
+    <!-- HOME PAGE -->
+    <!-- ==================== -->
+    <section id="home" class="page-section page-active">
         <div class="hero-section">
             <div class="container text-center">
                 <h1 class="display-4 fw-bold mb-4">Welcome to Arrong Style</h1>
                 <p class="lead mb-4">Discover the latest fashion trends at amazing prices</p>
-                <button class="btn btn-light btn-lg" onclick="showSection('products')">
+                <button class="btn btn-light btn-lg" onclick="showPage('products')">
                     Start Shopping <i class="fas fa-arrow-right ms-2"></i>
                 </button>
             </div>
@@ -271,49 +237,54 @@
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="checkout-section">
-        <div class="container">
-            <h2 class="section-title">Our Products</h2>
+    <!-- ==================== -->
+    <!-- PRODUCTS PAGE -->
+    <!-- ==================== -->
+    <section id="products" class="page-section">
+        <div class="container py-5">
+            <h1 class="text-center mb-5">Our Products</h1>
             
-            <!-- Category Filters -->
-            <div class="category-filter text-center">
-                <button class="btn btn-outline-primary category-btn active" onclick="filterProducts('all')">All</button>
-                <button class="btn btn-outline-primary category-btn" onclick="filterProducts('men')">Men</button>
-                <button class="btn btn-outline-primary category-btn" onclick="filterProducts('women')">Women</button>
-                <button class="btn btn-outline-primary category-btn" onclick="filterProducts('kids')">Kids</button>
+            <div class="text-center mb-4">
+                <button class="btn btn-outline-primary active" onclick="filterProducts('all')">All</button>
+                <button class="btn btn-outline-primary" onclick="filterProducts('men')">Men</button>
+                <button class="btn btn-outline-primary" onclick="filterProducts('women')">Women</button>
+                <button class="btn btn-outline-primary" onclick="filterProducts('kids')">Kids</button>
             </div>
 
             <div class="row" id="productsContainer">
-                <!-- Products will be loaded here -->
+                <!-- Products loaded by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Product Detail Section -->
-    <section id="product-detail" class="checkout-section">
-        <div class="container">
-            <button class="btn btn-secondary mb-4" onclick="showSection('products')">
+    <!-- ==================== -->
+    <!-- PRODUCT DETAIL PAGE -->
+    <!-- ==================== -->
+    <section id="product-detail" class="page-section">
+        <div class="container py-5">
+            <button class="btn btn-secondary mb-4" onclick="showPage('products')">
                 <i class="fas fa-arrow-left me-2"></i> Back to Products
             </button>
             
             <div class="row" id="productDetailContainer">
-                <!-- Product details will be loaded here -->
+                <!-- Product details loaded by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Cart Section -->
-    <section id="cart" class="checkout-section">
-        <div class="container">
-            <h2 class="section-title">Your Shopping Cart</h2>
+    <!-- ==================== -->
+    <!-- CART PAGE -->
+    <!-- ==================== -->
+    <section id="cart" class="page-section">
+        <div class="container py-5">
+            <h1 class="text-center mb-5">Your Shopping Cart</h1>
             
             <div id="cartItemsContainer" class="mb-4">
-                <!-- Cart items will be loaded here -->
+                <!-- Cart items loaded by JavaScript -->
             </div>
             
             <div class="text-center">
-                <button class="btn btn-primary me-3" onclick="showSection('products')">
+                <button class="btn btn-primary me-3" onclick="showPage('products')">
                     Continue Shopping
                 </button>
                 <button class="btn btn-success" onclick="beginCheckout()" id="checkoutBtn">
@@ -323,9 +294,11 @@
         </div>
     </section>
 
-    <!-- Checkout Section -->
-    <section id="checkout" class="checkout-section">
-        <div class="container">
+    <!-- ==================== -->
+    <!-- CHECKOUT PAGE -->
+    <!-- ==================== -->
+    <section id="checkout" class="page-section">
+        <div class="container py-5">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="form-section">
@@ -355,7 +328,6 @@
                                     <option value="Bangladesh">Bangladesh</option>
                                     <option value="India">India</option>
                                     <option value="USA">USA</option>
-                                    <option value="UK">UK</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -374,7 +346,6 @@
                                     <option value="Hinduism">Hinduism</option>
                                     <option value="Christianity">Christianity</option>
                                     <option value="Buddhism">Buddhism</option>
-                                    <option value="Other">Other</option>
                                 </select>
                             </div>
                         </div>
@@ -415,7 +386,6 @@
                                         <option value="Bangladesh">Bangladesh</option>
                                         <option value="India">India</option>
                                         <option value="USA">USA</option>
-                                        <option value="UK">UK</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
@@ -434,7 +404,6 @@
                                         <option value="Hinduism">Hinduism</option>
                                         <option value="Christianity">Christianity</option>
                                         <option value="Buddhism">Buddhism</option>
-                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
                             </div>
@@ -456,12 +425,6 @@
                                 <i class="fas fa-credit-card me-2"></i> Credit/Debit Card
                             </label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="bkash">
-                            <label class="form-check-label" for="bkash">
-                                <i class="fas fa-mobile-alt me-2"></i> bKash
-                            </label>
-                        </div>
 
                         <button class="btn btn-success btn-lg w-100 mt-4" onclick="processPurchase()">
                             <i class="fas fa-lock me-2"></i> Complete Purchase
@@ -469,10 +432,467 @@
                     </div>
                 </div>
 
-                <!-- Order Summary -->
                 <div class="col-lg-4">
                     <div class="order-summary">
                         <h4 class="mb-4"><i class="fas fa-receipt me-2"></i>Order Summary</h4>
                         
                         <div id="orderSummary">
-                            <!-- Order items will be loaded here --
+                            <!-- Order items loaded by JavaScript -->
+                        </div>
+                        
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total:</span>
+                            <span id="orderTotal">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== -->
+    <!-- PURCHASE COMPLETE PAGE -->
+    <!-- ==================== -->
+    <section id="purchase-complete" class="page-section">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="form-section">
+                        <div class="success-animation">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 class="text-success mb-3">Purchase Completed Successfully!</h2>
+                        <p class="lead mb-4">Thank you for your order. Your order number is: <strong>#ORD-<span id="orderNumber"></span></strong></p>
+                        <p>You will receive a confirmation email shortly.</p>
+                        
+                        <div class="mt-5">
+                            <button class="btn btn-primary me-3" onclick="showPage('home')">
+                                <i class="fas fa-home me-2"></i> Back to Home
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="showPage('products')">
+                                <i class="fas fa-shopping-bag me-2"></i> Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2023 Arrong Style. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // 📊 Google Analytics Tracking
+        function trackEvent(category, action, label, value) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', action, {
+                    'event_category': category,
+                    'event_label': label,
+                    'value': value
+                });
+            }
+            console.log('📊 Event Tracked:', { category, action, label, value });
+        }
+
+        // 🛍️ Product Data
+        const products = [
+            {
+                id: 1, 
+                name: "Men's Premium Cotton T-Shirt", 
+                price: 599, 
+                category: "men", 
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&w=500",
+                headline: "Ultimate Comfort & Style",
+                description: "Experience unmatched comfort with our premium cotton t-shirt. Made from 100% organic cotton, this t-shirt offers superior breathability and softness.",
+                features: ["100% Organic Cotton", "Machine Washable", "Available in 5 Colors"],
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["Black", "White", "Blue", "Gray"]
+            },
+            {
+                id: 2, 
+                name: "Women's Elegant Summer Dress", 
+                price: 1299, 
+                category: "women", 
+                image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&w=500",
+                headline: "Elegance Redefined",
+                description: "Discover the perfect blend of style and comfort with our elegant summer dress. Featuring a flowy design and lightweight fabric.",
+                features: ["Lightweight Fabric", "Adjustable Waist", "Wrinkle-Resistant"],
+                sizes: ["S", "M", "L"],
+                colors: ["Red", "Blue", "Yellow", "Pink"]
+            },
+            {
+                id: 3, 
+                name: "Kids Sports Running Shoes", 
+                price: 899, 
+                category: "kids", 
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&w=500",
+                headline: "Comfortable & Durable",
+                description: "Keep your kids active and comfortable with our sports running shoes. Designed with extra cushioning and flexible soles.",
+                features: ["Extra Cushioning", "Breathable Mesh", "Non-Slip Soles"],
+                sizes: ["28", "30", "32", "34"],
+                colors: ["Blue", "Red", "Green", "Black"]
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentProduct = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            displayProducts();
+            updateStepIndicator(1);
+            
+            // Same as billing functionality
+            document.getElementById('sameAsBilling').addEventListener('change', function() {
+                const shippingInfo = document.getElementById('shippingInfo');
+                if (this.checked) {
+                    shippingInfo.style.display = 'none';
+                    copyBillingToShipping();
+                } else {
+                    shippingInfo.style.display = 'block';
+                }
+            });
+            
+            trackEvent('page', 'view', 'home_page');
+        });
+
+        // Show different pages
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('page-active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('page-active');
+            
+            // Update step indicator
+            const stepMap = {
+                'home': 1,
+                'products': 1,
+                'product-detail': 2,
+                'cart': 3,
+                'checkout': 4,
+                'purchase-complete': 5
+            };
+            
+            if (stepMap[pageName]) {
+                updateStepIndicator(stepMap[pageName]);
+            }
+            
+            // Track page view
+            trackEvent('navigation', 'page_view', pageName);
+        }
+
+        // Display Products
+        function displayProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = products.map(product => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.headline}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-tag">$${product.price}</span>
+                                <button class="btn btn-primary" onclick="viewProductDetail(${product.id})">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Products
+        function filterProducts(category) {
+            document.querySelectorAll('.btn-outline-primary').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const container = document.getElementById('productsContainer');
+            const filteredProducts = category === 'all' ? products : 
+                                   products.filter(p => p.category === category);
+            
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.headline}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-tag">$${product.price}</span>
+                                <button class="btn btn-primary" onclick="viewProductDetail(${product.id})">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            trackEvent('filter', 'category', category);
+        }
+
+        // View Product Details
+        function viewProductDetail(productId) {
+            currentProduct = products.find(p => p.id === productId);
+            const container = document.getElementById('productDetailContainer');
+            
+            container.innerHTML = `
+                <div class="col-md-6">
+                    <img src="${currentProduct.image}" class="img-fluid rounded" alt="${currentProduct.name}">
+                </div>
+                <div class="col-md-6">
+                    <h2>${currentProduct.name}</h2>
+                    <h4 class="text-primary">${currentProduct.headline}</h4>
+                    <p class="price-tag fs-2">$${currentProduct.price}</p>
+                    
+                    <div class="mb-4">
+                        <h5>Product Description</h5>
+                        <p>${currentProduct.description}</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Key Features</h5>
+                        <ul>
+                            ${currentProduct.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Size</label>
+                            <select class="form-control" id="productSize">
+                                ${currentProduct.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Color</label>
+                            <select class="form-control" id="productColor">
+                                ${currentProduct.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-success btn-lg w-100" onclick="addToCart(${productId})">
+                        <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                    </button>
+                </div>
+            `;
+            
+            showPage('product-detail');
+            trackEvent('ecommerce', 'product_view', currentProduct.name, currentProduct.price);
+        }
+
+        // Add to Cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const size = document.getElementById('productSize').value;
+            const color = document.getElementById('productColor').value;
+            
+            const existingItem = cart.find(item => 
+                item.id === productId && item.size === size && item.color === color
+            );
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product, 
+                    quantity: 1,
+                    size: size,
+                    color: color
+                });
+            }
+            
+            updateCart();
+            showPage('cart');
+            
+            trackEvent('ecommerce', 'add_to_cart', product.name, product.price);
+        }
+
+        // Update Cart Display
+        function updateCartDisplay() {
+            const container = document.getElementById('cartItemsContainer');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                        <h4>Your cart is empty</h4>
+                        <p>Start shopping to add items to your cart</p>
+                    </div>
+                `;
+                checkoutBtn.style.display = 'none';
+                return;
+            }
+            
+            checkoutBtn.style.display = 'inline-block';
+            
+            container.innerHTML = cart.map((item, index) => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <img src="${item.image}" class="img-fluid rounded" alt="${item.name}">
+                            </div>
+                            <div class="col-md-4">
+                                <h5>${item.name}</h5>
+                                <p class="text-muted">Size: ${item.size} | Color: ${item.color}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                                    <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
+                                    <button class="btn btn-outline-secondary" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h5>$${item.price * item.quantity}</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-danger" onclick="removeFromCart(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update Quantity
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(index);
+                return;
+            }
+            
+            cart[index].quantity = newQuantity;
+            updateCart();
+        }
+
+        // Remove from Cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+            trackEvent('ecommerce', 'remove_from_cart', 'product_removed');
+        }
+
+        // Begin Checkout
+        function beginCheckout() {
+            showPage('checkout');
+            updateOrderSummary();
+            trackEvent('ecommerce', 'begin_checkout', '', getCartTotal());
+        }
+
+        // Process Purchase
+        function processPurchase() {
+            if (!validateCheckoutForm()) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const orderTotal = getCartTotal();
+            trackEvent('ecommerce', 'purchase', '', orderTotal);
+            
+            const orderNumber = 'ORD-' + Date.now();
+            document.getElementById('orderNumber').textContent = orderNumber;
+            
+            showPage('purchase-complete');
+            
+            // Clear cart after purchase
+            setTimeout(() => {
+                cart = [];
+                updateCart();
+            }, 3000);
+        }
+
+        // Validate Checkout Form
+        function validateCheckoutForm() {
+            const requiredFields = [
+                'billingFirstName', 'billingLastName', 'billingEmail', 
+                'billingMobile', 'billingCountry', 'billingState', 'billingCity'
+            ];
+            
+            for (let field of requiredFields) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Copy Billing to Shipping
+        function copyBillingToShipping() {
+            const fields = ['FirstName', 'LastName', 'Email', 'Mobile', 'Country', 'State', 'City', 'Religion'];
+            fields.forEach(field => {
+                const billingValue = document.getElementById('billing' + field).value;
+                document.getElementById('shipping' + field).value = billingValue;
+            });
+        }
+
+        // Update Order Summary
+        function updateOrderSummary() {
+            const container = document.getElementById('orderSummary');
+            const totalEl = document.getElementById('orderTotal');
+            const total = getCartTotal();
+            
+            container.innerHTML = cart.map(item => `
+                <div class="d-flex justify-content-between mb-2">
+                    <span>${item.name} (${item.size}, ${item.color}) x${item.quantity}</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+            
+            totalEl.textContent = '$' + total.toFixed(2);
+        }
+
+        // Cart Management
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+
+        function getCartTotal() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        // Step Indicator
+        function updateStepIndicator(activeStep) {
+            for (let i = 1; i <= 5; i++) {
+                const step = document.getElementById('step' + i);
+                step.className = 'step';
+                if (i === activeStep) {
+                    step.classList.add('active');
+                } else if (i < activeStep) {
+                    step.classList.add('completed');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
