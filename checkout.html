@@ -3,18 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Demo Shop - Checkout</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4f4f9; padding:40px; }
+    form { max-width:400px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    label { display:block; margin-bottom:10px; }
+    input { width:100%; padding:8px; margin-top:5px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; }
+    button { background:#ff5722; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#e64a19; }
+  </style>
 </head>
 <body>
-  <h1>Checkout</h1>
-  <form id="checkoutForm" action="thankyou.html" method="GET">
-    <label>First Name: <input type="text" name="first_name" required></label><br>
-    <label>Last Name: <input type="text" name="last_name" required></label><br>
-    <label>Email: <input type="email" name="email" required></label><br>
-    <label>Phone: <input type="tel" name="phone" required></label><br>
-    <label>Country: <input type="text" name="country" required></label><br>
-    <label>State: <input type="text" name="state" required></label><br>
-    <label>Address: <input type="text" name="address" required></label><br>
+  <h1 style="text-align:center;">Checkout</h1>
+  <form action="thankyou.html" method="GET">
+    <label>First Name: <input type="text" name="first_name" required></label>
+    <label>Last Name: <input type="text" name="last_name" required></label>
+    <label>Email: <input type="email" name="email" required></label>
+    <label>Phone: <input type="tel" name="phone" required></label>
+    <label>Country: <input type="text" name="country" required></label>
+    <label>State: <input type="text" name="state" required></label>
+    <label>Address: <input type="text" name="address" required></label>
     <button type="submit">Complete Purchase</button>
   </form>
+  <script>
+    dataLayer = window.dataLayer || [];
+    dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }]
+      }
+    });
+  </script>
 </body>
 </html>
