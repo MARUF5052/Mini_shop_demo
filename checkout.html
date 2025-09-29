@@ -11,8 +11,19 @@
     button { background:#ff5722; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
     button:hover { background:#e64a19; }
   </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
   <h1 style="text-align:center;">Checkout</h1>
   <form action="thankyou.html" method="GET">
     <label>First Name: <input type="text" name="first_name" required></label>
@@ -24,13 +35,12 @@
     <label>Address: <input type="text" name="address" required></label>
     <button type="submit">Complete Purchase</button>
   </form>
+
   <script>
     dataLayer = window.dataLayer || [];
     dataLayer.push({
       event: "begin_checkout",
-      ecommerce: {
-        items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }]
-      }
+      ecommerce: { items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }] }
     });
   </script>
 </body>
