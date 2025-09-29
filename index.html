@@ -1,204 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Practice GA4 / GTM / Google Ads - Mini Shop</title>
-  <meta name="description" content="Small demo site to practice Google Tag Manager, GA4 and Google Ads conversion tracking">
-  <style>
-    /* Simple styles for demo */
-    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;margin:0;background:#f7f7fb;color:#111}
-    header{background:#0f172a;color:#fff;padding:18px 24px}
-    .container{max-width:960px;margin:28px auto;padding:0 16px}
-    .grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
-    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 20px rgba(16,24,40,.06)}
-    img.product{width:100%;border-radius:8px}
-    button{background:#0ea5a4;border:none;padding:12px 16px;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
-    .muted{color:#64748b;font-size:14px}
-    footer{padding:18px;text-align:center;color:#64748b}
-    .small{font-size:13px}
-  </style>
+  <meta charset="UTF-8">
+  <title>Demo Shop - Home</title>
 
-  <!-- Google Tag Manager (GTM) - replaced with your GTM container ID -->
-  <!-- Put this as high in the <head> as possible -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-K4C5MNCC');
-  </script>
-  <!-- End GTM -->
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
+  <!-- End Google Tag Manager -->
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End GTM noscript -->
+  <!-- End Google Tag Manager (noscript) -->
 
-  <header>
-    <div class="container">
-      <h1 style="margin:0;font-size:20px">Mini Shop — GA4 / GTM / Google Ads Practice</h1>
-      <div class="muted small">GTM container already set to <code>GTM-K4C5MNCC</code>.</div>
-    </div>
-  </header>
-
-  <main class="container">
-    <div class="grid">
-      <section>
-        <div class="card">
-          <img class="product" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80" alt="Sample Product">
-          <h2>Cozy Cashmere Scarf</h2>
-          <p class="muted">Soft, warm and stylish — a demo product for tracking events.</p>
-          <p style="font-weight:700;font-size:18px;margin-top:10px">৳1,250</p>
-
-          <div style="margin-top:14px;display:flex;gap:12px">
-            <button id="addToCartBtn">Add to Cart</button>
-            <button id="buyNowBtn" style="background:#7c3aed">Buy Now</button>
-          </div>
-
-          <div style="margin-top:12px" class="muted small">Buttons push ecommerce events to <code>dataLayer</code> so you can trigger tags in GTM.</div>
-        </div>
-
-        <div style="margin-top:16px" class="card">
-          <h3>Flow Tester</h3>
-          <p class="muted">Use these to simulate customer actions. GTM preview & GA4 DebugView will show the events.</p>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="viewItemBtn" style="background:#2563eb">View Item</button>
-            <button id="beginCheckoutBtn" style="background:#f59e0b">Begin Checkout</button>
-            <button id="purchaseBtn" style="background:#16a34a">Complete Purchase</button>
-          </div>
-        </div>
-
-      </section>
-
-      <aside>
-        <div class="card">
-          <h3>Your Cart</h3>
-          <div id="cartContents" style="margin-top:12px">
-            <div class="muted">Cart is empty</div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <h4>Testing Tips</h4>
-          <ul class="muted small">
-            <li>Open GTM preview (Tag Assistant) and watch for dataLayer events.</li>
-            <li>In GA4, open DebugView to see events live (use debug mode or GTM debug).</li>
-            <li>Create triggers in GTM that fire on these event names: <code>view_item</code>, <code>add_to_cart</code>, <code>begin_checkout</code>, <code>purchase</code>.</li>
-            <li>Map ecommerce parameters in tags (value, currency, items[]).</li>
-            <li>For Google Ads conversions, create a Google Ads Conversion tag in GTM and fire it on the <code>purchase</code> event (or map via GA4->Google Ads).</li>
-          </ul>
-        </div>
-
-      </aside>
-    </div>
-
-    <div style="margin-top:18px" class="card">
-      <h3>Console Logger</h3>
-      <div class="muted small">Events pushed to <code>dataLayer</code> will also be shown in the browser console for quick debugging.</div>
-      <pre id="log" style="background:#0b1220;color:#e6eef8;padding:12px;border-radius:8px;margin-top:10px;max-height:180px;overflow:auto">Ready to log events...</pre>
-    </div>
-
-  </main>
-
-  <footer>
-    <div class="container">Made for practice • GTM container set to GTM-K4C5MNCC</div>
-  </footer>
-
-  <script>
-    // Simple data model for demo product
-    const product = {
-      id: 'scarf-001',
-      name: 'Cozy Cashmere Scarf',
-      category: 'Apparel/Scarves',
-      price: 1250,
-      currency: 'BDT'
-    };
-
-    // utility: push to dataLayer and log
-    function pushEvent(eventName, eventObj){
-      const payload = {event: eventName, ...eventObj};
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(payload);
-      const log = document.getElementById('log');
-      log.textContent = '\n>> ' + new Date().toLocaleTimeString() + ' pushed: ' + JSON.stringify(payload, null, 2) + '\n' + log.textContent;
-      console.info('dataLayer push:', payload);
-    }
-
-    // initial page view push (optional - GTM GA4 config often sends page_view automatically)
-    pushEvent('page_view', {page_title: document.title, page_path: location.pathname});
-
-    // view item
-    document.getElementById('viewItemBtn').addEventListener('click', ()=>{
-      pushEvent('view_item', {
-        ecommerce: {
-          items: [{item_id: product.id, item_name: product.name, item_category: product.category, price: product.price, currency: product.currency}]
-        }
-      });
-    });
-
-    // add to cart
-    document.getElementById('addToCartBtn').addEventListener('click', ()=>{
-      pushEvent('add_to_cart', {
-        ecommerce: {
-          value: product.price,
-          currency: product.currency,
-          items: [{item_id: product.id, item_name: product.name, price: product.price, quantity: 1}]
-        }
-      });
-      updateCartUI();
-    });
-
-    // buy now -> begin checkout -> simulate checkout
-    document.getElementById('buyNowBtn').addEventListener('click', ()=>{
-      pushEvent('begin_checkout', {
-        ecommerce: {items:[{item_id:product.id,item_name:product.name,quantity:1,price:product.price}],value:product.price,currency:product.currency}
-      });
-      // auto-open a fake checkout UI (for demo we just call purchase after prompt)
-      setTimeout(()=>{
-        if(confirm('Simulate completing purchase for ৳' + product.price + '?')){
-          completePurchase();
-        }
-      },200);
-    });
-
-    document.getElementById('beginCheckoutBtn').addEventListener('click', ()=>{
-      pushEvent('begin_checkout', {
-        ecommerce: {items:[{item_id:product.id,item_name:product.name,quantity:1,price:product.price}],value:product.price,currency:product.currency}
-      });
-    });
-
-    document.getElementById('purchaseBtn').addEventListener('click', ()=>{
-      completePurchase();
-    });
-
-    function completePurchase(){
-      const transactionId = 'T_' + Date.now();
-      pushEvent('purchase', {
-        transaction_id: transactionId,
-        ecommerce: {
-          transaction_id: transactionId,
-          value: product.price,
-          currency: product.currency,
-          items: [{item_id: product.id, item_name: product.name, price: product.price, quantity: 1}]
-        }
-      });
-      // Example: you can also push custom info so GTM can forward to Google Ads (e.g., value, currency)
-      updateCartUI(true);
-      alert('Purchase simulated. Transaction ID: ' + transactionId);
-    }
-
-    function updateCartUI(purchased=false){
-      const cart = document.getElementById('cartContents');
-      if(purchased){
-        cart.innerHTML = '<div style="font-weight:700;color:#16a34a">Thank you — purchase completed</div>';
-      } else {
-        cart.innerHTML = '<div>1 × ' + product.name + ' — ৳' + product.price + '</div>';
-      }
-    }
-
-  </script>
-
+  <h1>Welcome to Demo Shop</h1>
+  <div>
+    <h2>Product: Stylish Shirt</h2>
+    <p>Price: $50</p>
+    <a href="cart.html">Add to Cart</a>
+  </div>
 </body>
 </html>
