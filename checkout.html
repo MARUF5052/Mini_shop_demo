@@ -2,91 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout Page</title>
+  <title>Demo Shop - Thank You</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 400px;
-      margin: 50px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #218838;
-    }
+    body { font-family: Arial, sans-serif; background:#f4f4f9; padding:40px; text-align:center; }
+    .box { background:white; padding:30px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); display:inline-block; }
   </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
 </head>
 <body>
-  <div class="container">
-    <h2>Checkout</h2>
-    <form id="checkoutForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="address">Address</label>
-      <input type="text" id="address" name="address" required>
-
-      <label for="card">Card Number</label>
-      <input type="text" id="card" name="card" required>
-
-      <button type="submit">Complete Purchase</button>
-    </form>
+  <div class="box">
+    <h1>🎉 Thank You for Your Purchase!</h1>
+    <p>Your order has been placed successfully.</p>
   </div>
 
-  <!-- Dummy Checkout Event for GTM -->
   <script>
-    document.getElementById("checkoutForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      console.log("Checkout Completed");
+    const params = new URLSearchParams(window.location.search);
+    const firstName = params.get("first_name");
+    const lastName = params.get("last_name");
+    const email = params.get("email");
+    const phone = params.get("phone");
+    const country = params.get("country");
+    const state = params.get("state");
+    const address = params.get("address");
 
-      // এখানে তুমি GTM dataLayer event পাঠাতে পারবে
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        'event': 'purchase',
-        'transactionId': 'TXN12345',
-        'transactionTotal': 1500,
-        'currency': 'BDT'
+    async function sha256(input) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(input.trim().toLowerCase());
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+
+    async function pushUserData() {
+      dataLayer = window.dataLayer || [];
+      dataLayer.push({
+        event: "purchase",
+        transaction_id: "TXN" + Math.floor(Math.random()*1000000),
+        value: 50.00,
+        currency: "USD",
+        ecommerce: { items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }] },
+        user_data: {
+          email: email ? await sha256(email) : "",
+          phone_number: phone ? await sha256(phone) : "",
+          address: {
+            first_name: firstName ? await sha256(firstName) : "",
+            last_name: lastName ? await sha256(lastName) : "",
+            country: country ? await sha256(country) : "",
+            state: state ? await sha256(state) : "",
+            street: address ? await sha256(address) : ""
+          }
+        }
       });
-
-      alert("Thank you for your purchase!");
-    });
+    }
+    pushUserData();
   </script>
 </body>
 </html>
