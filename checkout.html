@@ -1,126 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Demo Shop - Checkout</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f4f4f9; padding:40px; }
-    form { max-width:600px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-    h2 { margin-top:20px; color:#333; }
-    label { display:block; margin-bottom:10px; font-weight:bold; }
-    input { width:100%; padding:8px; margin-top:5px; margin-bottom:15px; border:1px solid #ccc; border-radius:5px; }
-    button { background:#ff5722; color:white; padding:12px 20px; border:none; border-radius:5px; cursor:pointer; width:100%; font-size:16px; }
-    button:hover { background:#e64a19; }
-  </style>
+<script>
+document.getElementById("checkoutForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const f = e.target;
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-K4C5MNCC');</script>
-</head>
-<body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4C5MNCC"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  const billing = {
+    first_name: f.billing_first_name.value,
+    last_name: f.billing_last_name.value,
+    email: f.billing_email.value,
+    phone: f.billing_phone.value,
+    country: f.billing_country.value,
+    state: f.billing_state.value,
+    address: f.billing_address.value
+  };
 
-  <h1 style="text-align:center;">Checkout</h1>
-  <form id="checkoutForm" action="thankyou.html" method="GET">
+  const shipping = {
+    first_name: f.shipping_first_name.value,
+    last_name: f.shipping_last_name.value,
+    email: f.shipping_email.value,
+    phone: f.shipping_phone.value,
+    country: f.shipping_country.value,
+    state: f.shipping_state.value,
+    address: f.shipping_address.value
+  };
 
-    <h2>Billing Information</h2>
-    <label>First Name: <input type="text" name="billing_first_name" required></label>
-    <label>Last Name: <input type="text" name="billing_last_name" required></label>
-    <label>Email: <input type="email" name="billing_email" required></label>
-    <label>Phone: <input type="tel" name="billing_phone" required></label>
-    <label>Country: <input type="text" name="billing_country" required></label>
-    <label>State: <input type="text" name="billing_state" required></label>
-    <label>Address: <input type="text" name="billing_address" required></label>
+  // BEGIN CHECKOUT event push
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "begin_checkout",
+    ecommerce: {
+      value: 99.99,
+      currency: "USD",
+      items: [{
+        item_name: "Stylish Shirt",
+        item_id: "SKU123",
+        price: 99.99,
+        quantity: 1
+      }]
+    },
+    billing_data: billing,
+    shipping_data: shipping
+  });
 
-    <h2>Shipping Information</h2>
-    <label>First Name: <input type="text" name="shipping_first_name" required></label>
-    <label>Last Name: <input type="text" name="shipping_last_name" required></label>
-    <label>Email: <input type="email" name="shipping_email" required></label>
-    <label>Phone: <input type="tel" name="shipping_phone" required></label>
-    <label>Country: <input type="text" name="shipping_country" required></label>
-    <label>State: <input type="text" name="shipping_state" required></label>
-    <label>Address: <input type="text" name="shipping_address" required></label>
-
-    <button type="submit">Complete Purchase</button>
-  </form>
-
-  <script>
-    async function sha256(input) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(input.trim().toLowerCase());
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      return Array.from(new Uint8Array(hashBuffer))
-                  .map(b => b.toString(16).padStart(2,"0"))
-                  .join("");
-    }
-
-    document.getElementById("checkoutForm").addEventListener("submit", async function(e) {
-      e.preventDefault(); 
-
-      const f = e.target;
-
-      // Billing info
-      const billing = {
-        first_name: f.billing_first_name.value,
-        last_name: f.billing_last_name.value,
-        email: f.billing_email.value,
-        phone: f.billing_phone.value,
-        country: f.billing_country.value,
-        state: f.billing_state.value,
-        address: f.billing_address.value
-      };
-
-      // Shipping info
-      const shipping = {
-        first_name: f.shipping_first_name.value,
-        last_name: f.shipping_last_name.value,
-        email: f.shipping_email.value,
-        phone: f.shipping_phone.value,
-        country: f.shipping_country.value,
-        state: f.shipping_state.value,
-        address: f.shipping_address.value
-      };
-
-      dataLayer = window.dataLayer || [];
-      dataLayer.push({
-        event: "purchase",
-        transaction_id: "TXN" + Math.floor(Math.random()*1000000),
-        value: 99.99,
-        currency: "USD",
-        ecommerce: {
-          items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 99.99, quantity: 1 }]
-        },
-        billing_data: {
-          email: await sha256(billing.email),
-          phone_number: await sha256(billing.phone),
-          address: {
-            first_name: await sha256(billing.first_name),
-            last_name: await sha256(billing.last_name),
-            country: await sha256(billing.country),
-            state: await sha256(billing.state),
-            street: await sha256(billing.address)
-          }
-        },
-        shipping_data: {
-          email: await sha256(shipping.email),
-          phone_number: await sha256(shipping.phone),
-          address: {
-            first_name: await sha256(shipping.first_name),
-            last_name: await sha256(shipping.last_name),
-            country: await sha256(shipping.country),
-            state: await sha256(shipping.state),
-            street: await sha256(shipping.address)
-          }
-        }
-      });
-
-      f.submit();
-    });
-  </script>
-</body>
-</html>
+  // এখন ফর্ম সাবমিট করো → Thank You পেজে যাবে
+  f.submit();
+});
+</script>
