@@ -27,15 +27,31 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const firstName = params.get("first_name");
-    const lastName = params.get("last_name");
-    const email = params.get("email");
-    const phone = params.get("phone");
-    const country = params.get("country");
-    const state = params.get("state");
-    const address = params.get("address");
+
+    // Billing info
+    const billing = {
+      first_name: params.get("billing_first_name"),
+      last_name: params.get("billing_last_name"),
+      email: params.get("billing_email"),
+      phone: params.get("billing_phone"),
+      country: params.get("billing_country"),
+      state: params.get("billing_state"),
+      address: params.get("billing_address")
+    };
+
+    // Shipping info
+    const shipping = {
+      first_name: params.get("shipping_first_name"),
+      last_name: params.get("shipping_last_name"),
+      email: params.get("shipping_email"),
+      phone: params.get("shipping_phone"),
+      country: params.get("shipping_country"),
+      state: params.get("shipping_state"),
+      address: params.get("shipping_address")
+    };
 
     async function sha256(input) {
+      if (!input) return "";
       const encoder = new TextEncoder();
       const data = encoder.encode(input.trim().toLowerCase());
       const hashBuffer = await crypto.subtle.digest("SHA-256", data);
@@ -43,26 +59,45 @@
     }
 
     async function pushUserData() {
-      dataLayer = window.dataLayer || [];
-      dataLayer.push({
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
         event: "purchase",
         transaction_id: "TXN" + Math.floor(Math.random()*1000000),
-        value: 50.00,
+        value: 99.99,
         currency: "USD",
-        ecommerce: { items: [{ item_name: "Stylish Shirt", item_id: "SKU123", price: 50.00, quantity: 1 }] },
-        user_data: {
-          email: email ? await sha256(email) : "",
-          phone_number: phone ? await sha256(phone) : "",
+        ecommerce: {
+          items: [{
+            item_name: "Stylish Shirt",
+            item_id: "SKU123",
+            price: 99.99,
+            quantity: 1
+          }]
+        },
+        billing_data: {
+          email: await sha256(billing.email),
+          phone_number: await sha256(billing.phone),
           address: {
-            first_name: firstName ? await sha256(firstName) : "",
-            last_name: lastName ? await sha256(lastName) : "",
-            country: country ? await sha256(country) : "",
-            state: state ? await sha256(state) : "",
-            street: address ? await sha256(address) : ""
+            first_name: await sha256(billing.first_name),
+            last_name: await sha256(billing.last_name),
+            country: await sha256(billing.country),
+            state: await sha256(billing.state),
+            street: await sha256(billing.address)
+          }
+        },
+        shipping_data: {
+          email: await sha256(shipping.email),
+          phone_number: await sha256(shipping.phone),
+          address: {
+            first_name: await sha256(shipping.first_name),
+            last_name: await sha256(shipping.last_name),
+            country: await sha256(shipping.country),
+            state: await sha256(shipping.state),
+            street: await sha256(shipping.address)
           }
         }
       });
     }
+
     pushUserData();
   </script>
 </body>
